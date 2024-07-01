@@ -2,8 +2,8 @@
     "name": "com.open.world.editor",
     "rootNamespace": "",
     "references": [
-        "GUID:66a3cd567d943544ab1f241d9a5a9184",
-        "GUID:80a82330efe757f448bcc560ded6838f"
+        "com.open.world",
+        "com.asset.perfomance.toolkit"
     ],
     "includePlatforms": [
         "Editor"
