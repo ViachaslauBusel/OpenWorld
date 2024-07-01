@@ -6,10 +6,12 @@
   "unity": "2019.1",
   "unityRelease": "0b5",
   "documentationUrl": "https://github.com/ViachaslauBusel/OpenWorld",
-
   "author": {
     "name": "Viachaslau",
     "email": "vyacheslav.bysel@gmail.com",
     "url": "https://github.com/ViachaslauBusel"
+  },
+  "dependencies": {
+    "com.asset.perfomance.toolkit": "1.0.0"
   }
 }

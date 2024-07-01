@@ -1,0 +1,16 @@
+{
+    "name": "com.open.world",
+    "rootNamespace": "",
+    "references": [
+        "GUID:80a82330efe757f448bcc560ded6838f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
