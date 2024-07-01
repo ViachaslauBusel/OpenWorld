@@ -1,0 +1,15 @@
+{
+  "name": "com.open.world",
+  "version": "1.0.0",
+  "displayName": "Open World",
+  "description": "This tool is designed for creating and editing open worlds. Features include terrain generation and editing, vegetation and foliage placement, object arrangement, dynamic weather, and performance optimization.",
+  "unity": "2019.1",
+  "unityRelease": "0b5",
+  "documentationUrl": "https://github.com/ViachaslauBusel/OpenWorld",
+
+  "author": {
+    "name": "Viachaslau",
+    "email": "vyacheslav.bysel@gmail.com",
+    "url": "https://github.com/ViachaslauBusel"
+  }
+}
