@@ -52,17 +52,10 @@ namespace OpenWorld.DATA
         public string GetPath(int xKM, int yKM, int xTR, int yTR) => "Assets/MapData/" + _mapName + "/KMBlock_" + xKM + '_' + yKM + "/Tile_" + xTR + '_' + yTR + ".asset";
         public string GetPathToLight(int xKM, int yKM, int xTR, int yTR) => "Assets/MapData/" + _mapName + "(Light)/KMBlock_" + xKM + '_' + yKM + "/TRBlock_" + xTR + '_' + yTR + ".asset";
 
-        /// <summary>
-        /// Transform position from world space to map space
-        /// </summary>
-        /// <param name="position"></param>
-        /// <returns></returns>
-        internal Vector3 WorldToMapPoint(Vector3 position)
+
+        public bool IsValid()
         {
-            position -= WorldStartPoint;
-            position.x = Mathf.Clamp(position.x, 0, MapSizeKilometers * SIZE_KMBLOCK);
-            position.z = Mathf.Clamp(position.z, 0, MapSizeKilometers * SIZE_KMBLOCK);
-            return position;
+            return !string.IsNullOrEmpty(_mapName) && _mapSizeKm > 0 && _tilesPerKm > 0 && _tileSize > 0;
         }
 
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -153,6 +146,7 @@ namespace OpenWorld.DATA
         {
             _mapName = null;
         }
+
 #endif
     }
 }

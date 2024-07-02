@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6760e2a0d82a11a4dbf07b75b1cb2f57, type: 3}
+  m_Name: TestMap
+  m_EditorClassIdentifier: 
+  _mapName: 
+  _mapSizeKm: 0
+  _tilesPerKm: 0
+  _tileSize: 0
+  _worldStartPoint: {x: 0, y: 0}
+  _worldEndPoint: {x: 0, y: 0}
+  _worldMaxHeight: 0
+  _heightmapResolutionIndex: 2
+  _alphamapResolutionIndex: 3
+  _baseMapResolutionIndex: 3
+  _waterLevel: 0

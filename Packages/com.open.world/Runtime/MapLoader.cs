@@ -97,6 +97,7 @@ namespace OpenWorld
         public void LoadMap()
         {
             if (Ready) { Debug.LogError("the map is already loaded"); return; }
+            if (_map == null || _map.IsValid() == false) { Debug.LogError("Map is not valid"); return; }
 
 #if UNITY_EDITOR
             SetupMap();

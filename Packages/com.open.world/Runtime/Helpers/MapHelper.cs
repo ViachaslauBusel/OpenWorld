@@ -34,5 +34,19 @@ namespace OpenWorld.Helpers
         {
             return location.Xkm >= 0 && location.Ykm >= 0 && location.Xkm < map.MapSizeKilometers && location.Ykm < map.MapSizeKilometers;
         }
+
+
+        /// <summary>
+        /// Transform position from world space to map space
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public static Vector3 WorldToMapPoint(this Map map, Vector3 position)
+        {
+            position -= map.WorldStartPoint;
+            position.x = Mathf.Clamp(position.x, 0, map.MapSizeKilometers * Map.SIZE_KMBLOCK);
+            position.z = Mathf.Clamp(position.z, 0, map.MapSizeKilometers * Map.SIZE_KMBLOCK);
+            return position;
+        }
     }
 }
