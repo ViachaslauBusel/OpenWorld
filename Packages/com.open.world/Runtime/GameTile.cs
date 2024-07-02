@@ -43,7 +43,7 @@ namespace OpenWorld
 
 
 
-            TaskManager.Execute(() =>
+            TaskManager.Instance.Execute(() =>
             {
                 GameObject terrain_obj = Terrain.CreateTerrainGameObject(terrainData);
                 terrain_obj.layer = LayerMask.NameToLayer("Terrain");
@@ -82,7 +82,7 @@ namespace OpenWorld
 
             if (Tile.WaterTile != null)
             {
-                TaskManager.Execute(() =>
+                TaskManager.Instance.Execute(() =>
                 {
                     GameObject water = new GameObject("WaterTile");
                     MeshFilter meshFilter = water.AddComponent<MeshFilter>();

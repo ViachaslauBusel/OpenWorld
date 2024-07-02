@@ -236,11 +236,11 @@ namespace OpenWorld
         private void CreateTerrain(int x, int y, TileLocation location)
         {
             GameObject obj = new GameObject("LoadingTile");
-#if UNITY_EDITOR
-           _tiles[x, y] = obj.AddComponent<EditorTile>();
-#else
+//#if UNITY_EDITOR
+//           _tiles[x, y] = obj.AddComponent<EditorTile>();
+//#else
             _tiles[x, y] = obj.AddComponent<GameTile>();
-#endif
+//#endif
             obj.transform.SetParent(transform);
 
             if (_map.IsLocationValid(location) == false) { obj.name = "OutsideTile"; return; }
