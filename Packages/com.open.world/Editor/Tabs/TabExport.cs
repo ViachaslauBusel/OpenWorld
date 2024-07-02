@@ -100,7 +100,7 @@ namespace OpenWorldEditor
 
                 BuildPipeline.BuildAssetBundles("Export/AssetBundles/Win", BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows);
                 BuildPipeline.BuildAssetBundles("Export/AssetBundles/Android", BuildAssetBundleOptions.None, BuildTarget.Android);
-                BuildPipeline.BuildAssetBundles("Export/AssetBundles/IOS", BuildAssetBundleOptions.None, BuildTarget.iOS);
+               //BuildPipeline.BuildAssetBundles("Export/AssetBundles/IOS", BuildAssetBundleOptions.None, BuildTarget.iOS);
             }
             if (GUILayout.Button("Export Spawn Point"))
             {

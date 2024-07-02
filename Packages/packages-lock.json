@@ -5,7 +5,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "29cff1a16f5d7f6be642e2492c904de266eff4e6"
+      "hash": "87f592a8fd32bdcae31979a857c58aa8873ca6a7"
     },
     "com.open.world": {
       "version": "file:com.open.world",

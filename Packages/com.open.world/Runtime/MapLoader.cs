@@ -241,7 +241,7 @@ namespace OpenWorld
 #if UNITY_EDITOR
            _tiles[x, y] = obj.AddComponent<EditorTile>();
 #else
-            Tiles[x, y] = obj.AddComponent<GameTile>();
+            _tiles[x, y] = obj.AddComponent<GameTile>();
 #endif
             obj.transform.SetParent(transform);
 
