@@ -65,7 +65,7 @@ namespace OpenWorldEditor
 
                     AssetDatabase.AddObjectToAsset(terrainData, mapElement);
                   //  AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(terrainData));
-                    mapElement.terrainData = terrainData;
+                    mapElement.SetTerrainData(terrainData);
                    
                     /*   TerrainLayer[] terrainLayers = new TerrainLayer[1];
                        for (int k = 0; k < 1; k++)

@@ -78,7 +78,7 @@ namespace OpenWorld.Tabs.Terrain.Export
 
             if (tile != null)
             {
-                foreach(MapObject mapOBJ in tile.objects)
+                foreach(MapObject mapOBJ in tile.Objects)
                 {
                     GameObject prefabOBJ = mapOBJ.Prefab.Asset;
                     Collider[] collidersArray = prefabOBJ.GetComponentsInChildren<Collider>();

@@ -29,7 +29,7 @@ namespace OpenWorld
             Data = AssetDatabase.LoadAssetAtPath<Tile>(location.Path);
 
 
-            TerrainData terrainData = Data.terrainData;
+            TerrainData terrainData = Data.TerrainData;
 
 
                 GameObject terrain_obj = Terrain.CreateTerrainGameObject(terrainData);
@@ -56,12 +56,12 @@ namespace OpenWorld
           //  if(lightmapIndex >= 0) Debug.Log($"Scale on light:{Terrain.realtimeLightmapIndex}");
          //   else Debug.Log($"Scale:{Terrain.realtimeLightmapIndex}");
 
-            if (Data.waterTile != null)
+            if (Data.WaterTile != null)
             {
                     GameObject water = new GameObject("WaterTile");
                     MeshFilter meshFilter = water.AddComponent<MeshFilter>();
                     MeshRenderer meshRenderer = water.AddComponent<MeshRenderer>();
-                    meshFilter.mesh = Data.waterTile;
+                    meshFilter.mesh = Data.WaterTile;
               //  meshFilter.mesh.name = "water";
                // meshRenderer.material = TabSetting.WaterMaterial;
                 water.transform.SetParent(transform);
@@ -69,17 +69,17 @@ namespace OpenWorld
               //  water.AddComponent<WaterObject>();
             }
 
-            foreach (MapObject mapObject in Data.objects)
+            foreach (MapObject mapObject in Data.Objects)
             {
                 GameObject prefab = mapObject.Prefab.Asset;
                 if (prefab == null) continue;
 
-                    GameObject obj = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+                GameObject obj = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
 
                 obj.transform.position = mapObject.Position;
                 obj.transform.rotation = mapObject.Rotation;
-                    obj.transform.localScale = mapObject.Scale;
-                    obj.transform.SetParent(transform);
+                obj.transform.localScale = mapObject.Scale;
+                obj.transform.SetParent(transform);
                 obj.name = mapObject.GetHashCode().ToString();
                 obj.isStatic = true;
                 foreach (Transform _t in obj.GetComponentsInChildren<Transform>()) _t.gameObject.isStatic = true;

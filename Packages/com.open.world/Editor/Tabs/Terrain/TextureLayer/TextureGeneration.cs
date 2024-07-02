@@ -29,17 +29,17 @@ namespace OpenWorldEditor.Tools.Terrain
                             string path = map.GetPath(xKM, yKM, x, y);
                             Tile mapElement = AssetDatabase.LoadAssetAtPath<Tile>(path);
 
-                            if (mapElement.terrainData.terrainLayers == null || mapElement.terrainData.terrainLayers.Length == 0)
+                            if (mapElement.TerrainData.terrainLayers == null || mapElement.TerrainData.terrainLayers.Length == 0)
                             {
-                                if (!ConstainsHeight(mapElement.terrainData, height)) continue;
+                                if (!ConstainsHeight(mapElement.TerrainData, height)) continue;
                                 TerrainLayer[] terrainLayers = new TerrainLayer[1];
                                 for (int k = 0; k < 1; k++)
                                 {
                                     terrainLayers[k] = terrainLayer;
                                 }
 
-                                mapElement.terrainData.terrainLayers = terrainLayers;
-                                mapElement.terrainData.SetAlphamaps(0, 0, GetMapTexture(mapElement.terrainData.alphamapHeight, mapElement.terrainData.alphamapWidth, terrainLayers.Length));
+                                mapElement.TerrainData.terrainLayers = terrainLayers;
+                                mapElement.TerrainData.SetAlphamaps(0, 0, GetMapTexture(mapElement.TerrainData.alphamapHeight, mapElement.TerrainData.alphamapWidth, terrainLayers.Length));
                             }
                         }
                     }

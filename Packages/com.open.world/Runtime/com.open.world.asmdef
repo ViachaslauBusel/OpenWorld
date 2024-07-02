@@ -2,8 +2,7 @@
     "name": "com.open.world",
     "rootNamespace": "",
     "references": [
-        "com.asset.perfomance.toolkit",
-         "UnityEngine.TerrainModule"
+        "com.asset.perfomance.toolkit"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

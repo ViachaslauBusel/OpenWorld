@@ -81,7 +81,7 @@ namespace OpenWorldEditor
 
                                 Tile mapElement = AssetDatabase.LoadAssetAtPath<Tile>(map.GetPath(xKM, yKM, xTR, yTR));
         
-                                foreach(MapObject obj in mapElement.objects)
+                                foreach(MapObject obj in mapElement.Objects)
                                 {
                                     if(obj.Prefab.Refresh())
                                     {
@@ -269,9 +269,9 @@ namespace OpenWorldEditor
 
                     if (mapElement != null)
                     {
-                        mapElement.terrainData.wavingGrassSpeed = 0.2f;
-                        mapElement.terrainData.wavingGrassAmount = 0.31f;
-                        mapElement.terrainData.wavingGrassStrength = 0.3f;
+                        mapElement.TerrainData.wavingGrassSpeed = 0.2f;
+                        mapElement.TerrainData.wavingGrassAmount = 0.31f;
+                        mapElement.TerrainData.wavingGrassStrength = 0.3f;
                         //  mapElement.terrainData.baseMapResolution = 64;
                         //  mapElement.terrainData.SetDetailResolution(128, 32);
                         AssetDatabase.Refresh();
@@ -296,7 +296,7 @@ namespace OpenWorldEditor
 
                     if (mapElement != null)
                     {
-                        TreePrototype[] tree =  mapElement.terrainData.treePrototypes;
+                        TreePrototype[] tree =  mapElement.TerrainData.treePrototypes;
                         List<TreePrototype> treesSave = new List<TreePrototype>();
                         foreach(TreePrototype treePrototype in tree)
                         {
@@ -306,9 +306,9 @@ namespace OpenWorldEditor
                             }
                         }
                         TreePrototype[] prototype = treesSave.ToArray();
-                        mapElement.terrainData.treePrototypes = prototype;
+                        mapElement.TerrainData.treePrototypes = prototype;
 
-                        TreeInstance[] treeInstance = mapElement.terrainData.treeInstances;
+                        TreeInstance[] treeInstance = mapElement.TerrainData.treeInstances;
                         List<TreeInstance> listTrees = new List<TreeInstance>();
                         foreach(TreeInstance instance in treeInstance)
                         {
@@ -317,10 +317,10 @@ namespace OpenWorldEditor
                                 listTrees.Add(instance);
                             }
                         }
-                        mapElement.terrainData.treeInstances = listTrees.ToArray();
+                        mapElement.TerrainData.treeInstances = listTrees.ToArray();
 
 
-                       DetailPrototype[] details = mapElement.terrainData.detailPrototypes;
+                       DetailPrototype[] details = mapElement.TerrainData.detailPrototypes;
                         List<DetailPrototype> detailsSave = new List<DetailPrototype>();
                         foreach (DetailPrototype detailPrototype in details)
                         {
@@ -330,12 +330,12 @@ namespace OpenWorldEditor
                             }
                         }
                         DetailPrototype[] detailPrototypes = detailsSave.ToArray();
-                        mapElement.terrainData.detailPrototypes = detailPrototypes;
+                        mapElement.TerrainData.detailPrototypes = detailPrototypes;
 
                      //   mapElement.terrainData.GetDetailLayer
 
 
-                       mapElement.terrainData.RefreshPrototypes();
+                       mapElement.TerrainData.RefreshPrototypes();
                         AssetDatabase.Refresh();
                         EditorUtility.SetDirty(mapElement);
                         AssetDatabase.SaveAssets();

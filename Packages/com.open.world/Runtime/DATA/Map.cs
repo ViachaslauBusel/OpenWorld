@@ -99,10 +99,10 @@ namespace OpenWorld.DATA
         {
             foreach (Tile tile in this)
             {
-                if (tile.terrainData.alphamapResolution != AlphamapResolution)
-                { tile.terrainData.alphamapResolution = AlphamapResolution; }
-                if (tile.terrainData.baseMapResolution != BaseMapResolution)
-                { tile.terrainData.baseMapResolution = BaseMapResolution; }
+                if (tile.TerrainData.alphamapResolution != AlphamapResolution)
+                { tile.TerrainData.alphamapResolution = AlphamapResolution; }
+                if (tile.TerrainData.baseMapResolution != BaseMapResolution)
+                { tile.TerrainData.baseMapResolution = BaseMapResolution; }
                 //  if (tile.terrainData.alphamapLayers != 0) Debug.Log($"tile.terrainData.alphamapLayers:{tile.terrainData.alphamapLayers}");
                 EditorUtility.SetDirty(tile);
             }

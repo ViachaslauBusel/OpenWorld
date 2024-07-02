@@ -29,7 +29,7 @@ namespace OpenWorld
 
               Tile = resource.asset as Tile;
 
-            TerrainData terrainData = Tile.terrainData;
+            TerrainData terrainData = Tile.TerrainData;
 
 
 
@@ -70,63 +70,62 @@ namespace OpenWorld
                 terrain_obj.transform.SetParent(transform);
             });
            
-            if (Tile.waterTile != null)
+            if (Tile.WaterTile != null)
             {
                 TaskManager.Execute(() =>
                 {
                     GameObject water = new GameObject("WaterTile");
                     MeshFilter meshFilter = water.AddComponent<MeshFilter>();
                     MeshRenderer meshRenderer = water.AddComponent<MeshRenderer>();
-                    meshFilter.mesh = Tile.waterTile;
+                    meshFilter.mesh = Tile.WaterTile;
                    // meshRenderer.material = SettingsQuality.Instance.WaterMaterial;
                     water.transform.SetParent(transform);
                     water.transform.localPosition = new Vector3(0.0f, mapLoader.Map.WaterLevel, 0.0f) + location.Position;
                  //   water.AddComponent<WaterObject>();
                 });
             }
-           
-            foreach (MapObject mapObject in Tile.objects)
+
+            foreach (MapObject mapObject in Tile.Objects)
             {
 
 
-
                 TaskManager.Execute(mapObject.Prefab, (prefab) =>
-                {
-                    if (prefab == null) return;
-                    GameObject obj = Instantiate(prefab, mapObject.Position, mapObject.Rotation);
-                 
-                    obj.transform.SetParent(transform);
-                    obj.transform.localScale = mapObject.Scale;
-                    foreach (MeshRenderer _m in obj.GetComponentsInChildren<MeshRenderer>()) _m.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-                    obj.isStatic = true;
-                    foreach (Transform _t in obj.GetComponentsInChildren<Transform>()) _t.gameObject.isStatic = true;
+            {
+                if (prefab == null) return;
+                GameObject obj = Instantiate(prefab, mapObject.Position, mapObject.Rotation);
 
-                    objects.Add(obj);
+                obj.transform.SetParent(transform);
+                obj.transform.localScale = mapObject.Scale;
+                foreach (MeshRenderer _m in obj.GetComponentsInChildren<MeshRenderer>()) _m.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                obj.isStatic = true;
+                foreach (Transform _t in obj.GetComponentsInChildren<Transform>()) _t.gameObject.isStatic = true;
+
+                objects.Add(obj);
 
 
-                    //-----IOS-Focus--------------
-                    //foreach (Collider col in obj.GetComponentsInChildren<Collider>()) {
-                    //    col.enabled = true;
-                    //    Message message = new Message();
-                    //    message.Layer = MsgLayer.System;
-                    //    message.CharName = "system";
-                    //    message.Msg = $"Collider on {col.gameObject.name}:{col.enabled}";
+                //-----IOS-Focus--------------
+                //foreach (Collider col in obj.GetComponentsInChildren<Collider>()) {
+                //    col.enabled = true;
+                //    Message message = new Message();
+                //    message.Layer = MsgLayer.System;
+                //    message.CharName = "system";
+                //    message.Msg = $"Collider on {col.gameObject.name}:{col.enabled}";
 
-                    //    MessagesManager.Add(message);
-                    //}
-                    //foreach (Collider col in obj.GetComponents<Collider>()) {
-                    //    col.enabled = true;
-                    //    Message message = new Message();
-                    //    message.Layer = MsgLayer.System;
-                    //    message.CharName = "system";
-                    //    message.Msg = $"Collider on {col.gameObject.name}:{col.enabled}";
+                //    MessagesManager.Add(message);
+                //}
+                //foreach (Collider col in obj.GetComponents<Collider>()) {
+                //    col.enabled = true;
+                //    Message message = new Message();
+                //    message.Layer = MsgLayer.System;
+                //    message.CharName = "system";
+                //    message.Msg = $"Collider on {col.gameObject.name}:{col.enabled}";
 
-                    //    MessagesManager.Add(message);
-                    //}
+                //    MessagesManager.Add(message);
+                //}
 
-                  
-                });
-                
+
+            });
+
             }
 
            if (coroutineLoad != null)

@@ -60,7 +60,7 @@ namespace OpenWorldEditor.Tools.Terrain
                             string path = map.GetPath(xKM, yKM, x, y) ;
 
                             Tile resource = AssetDatabase.LoadAssetAtPath<Tile>(path);
-                            TerrainData terrainData = (resource as Tile).terrainData;
+                            TerrainData terrainData = (resource as Tile).TerrainData;
 
                             int xStart = (xKM * map.TilesPerKilometer + x) * (map.HeightmapResolution - 1);
                             int yStart = (yKM * map.TilesPerKilometer + y) * (map.HeightmapResolution - 1);

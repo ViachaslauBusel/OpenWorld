@@ -84,7 +84,7 @@ namespace OpenWorld.Tools.Objects
                         );
 
                    
-                    mapElement.objects.Add(mapObject);
+                    mapElement.AddObject(mapObject);
                     EditorUtility.SetDirty(mapElement);
                    
 

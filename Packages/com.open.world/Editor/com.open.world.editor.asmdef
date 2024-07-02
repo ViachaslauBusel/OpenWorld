@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "com.open.world",
-        "com.asset.perfomance.toolkit"
+        "com.asset.perfomance.toolkit",
+        "UnityEditor.UI"
     ],
     "includePlatforms": [
         "Editor"

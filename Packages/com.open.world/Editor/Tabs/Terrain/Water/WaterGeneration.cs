@@ -33,18 +33,18 @@ namespace OpenWorldEditor.Tools.Terrain
 
                             Tile mapElement = AssetDatabase.LoadAssetAtPath<Tile>(path);
 
-                            if (mapElement.waterTile != null)
+                            if (mapElement.WaterTile != null)
                             {
-                                AssetDatabase.RemoveObjectFromAsset(mapElement.waterTile);
+                                AssetDatabase.RemoveObjectFromAsset(mapElement.WaterTile);
                             }
 
-                            Mesh waterTile =  CreateTileWater(mapElement.terrainData, waterLevel);
+                            Mesh waterTile =  CreateTileWater(mapElement.TerrainData, waterLevel);
                             if (waterTile != null)
                             {
                        
                                 AssetDatabase.AddObjectToAsset(waterTile, mapElement);
                             }
-                            mapElement.waterTile = waterTile;
+                            mapElement.SetWater(waterTile);
                         }
                     }
 

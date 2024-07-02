@@ -41,15 +41,15 @@ namespace OpenWorld.Tools.Objects
 
                 foreach (EditorTile tile in m_selectTiles)
                 {
-                    foreach (MapObject mapObject in tile.Data.objects)
+                    foreach (MapObject mapObject in tile.Data.Objects)
                     {
                         DisplayObject displayObject = DisplayObject.Create(
-                            tile.Data,
-                            mapObject,
-                            mapObject.Prefab?.Asset,
-                            tile.transform.Find(mapObject.GetHashCode().ToString())?.gameObject
-                            );
-                       if(displayObject != null) m_displays.Add(displayObject);
+                        tile.Data,
+                        mapObject,
+                        mapObject.Prefab?.Asset,
+                        tile.transform.Find(mapObject.GetHashCode().ToString())?.gameObject
+                        );
+                        if (displayObject != null) m_displays.Add(displayObject);
                     }
                 }
             }
@@ -138,7 +138,7 @@ namespace OpenWorld.Tools.Objects
            ObjectOnScene.transform.SetParent(null);
 
             //Удалить обьект из префаба
-            TileData.objects.Remove(ObjectData);
+            TileData.RemoveObject(ObjectData);
             EditorUtility.SetDirty(TileData);
         }
 
@@ -148,7 +148,7 @@ namespace OpenWorld.Tools.Objects
             GameObject.DestroyImmediate(ObjectOnScene);
 
             //Удалить обьект из префаба
-            TileData.objects.Remove(ObjectData);
+            TileData.RemoveObject(ObjectData);
             EditorUtility.SetDirty(TileData);
         }
 
