@@ -12,14 +12,15 @@ namespace OpenWorld
 {
     public class MapLoader : MonoBehaviour
     {
+        [SerializeField] Map _map;
+        [SerializeField] Material _waterMaterial;
+        [SerializeField] Material _terrainMaterial;
         private ITile[,] _tiles;
         private TileLocation[,] _tilesLocations;
         private Vector4 _border = new Vector4();
         private BundlesMap _bundlesMap;
         private Transform _trackingObj;
-        private Map _map;
-        private Material _waterMaterial;
-        private Material _terrainMaterial;
+
         private bool _ready = false;
 
         public bool Ready => _ready;
