@@ -80,7 +80,7 @@ namespace OpenWorld.Tabs.Terrain.Export
             {
                 foreach(MapObject mapOBJ in tile.Objects)
                 {
-                    GameObject prefabOBJ = mapOBJ.Prefab.Asset;
+                    GameObject prefabOBJ = mapOBJ.Prefab.editorAsset as GameObject;
                     Collider[] collidersArray = prefabOBJ.GetComponentsInChildren<Collider>();
                     stream_out.Write(collidersArray.Length);//Количество Collider на обьекте
                     foreach (Collider collider in collidersArray)

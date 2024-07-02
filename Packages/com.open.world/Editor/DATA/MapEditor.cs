@@ -47,9 +47,9 @@ namespace OpenWorld.DATA
                         return;
                     }
                     // else {   return; }
-                    EditorUtility.SetDirty(this);
+                    EditorUtility.SetDirty(target);
                     AssetDatabase.SaveAssets();
-                    AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(this), map.MapName);
+                    AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(target), map.MapName);
                     _error = MapCreationError.None;
                 }
             }
@@ -64,7 +64,7 @@ namespace OpenWorld.DATA
                         map.ApplyMapSetting();
                     }
 
-                    EditorUtility.SetDirty(this);
+                    EditorUtility.SetDirty(target);
                     AssetDatabase.SaveAssets();
                 }
 
@@ -74,7 +74,7 @@ namespace OpenWorld.DATA
                     {
                         FileUtil.DeleteFileOrDirectory($"Assets/MapData/{map.MapName}/");
 
-                        AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(this));
+                        AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(target));
                         AssetDatabase.Refresh();
                     }
                 }

@@ -17,12 +17,12 @@ namespace OpenWorld
         /// <summary>Данные для загрузки тайла</summary>
         public Tile Data { get; private set; }
         public List<GameObject> gameObjects = new List<GameObject>();
-        public void Load(BundlesMap bundlesMap, TileLocation location, MapLoader mapLoader) 
+        public void Load(TileLocation location, MapLoader mapLoader) 
         {
             Location = location;
-            Load(bundlesMap, location, mapLoader.Map);
+            Load(location, mapLoader.Map);
         }
-        public void Load(BundlesMap bundlesMap, TileLocation location, Map map)
+        public void Load(TileLocation location, Map map)
         {
 
 
@@ -71,7 +71,7 @@ namespace OpenWorld
 
             foreach (MapObject mapObject in Data.Objects)
             {
-                GameObject prefab = mapObject.Prefab.Asset;
+                GameObject prefab = mapObject.Prefab.editorAsset as GameObject;
                 if (prefab == null) continue;
 
                 GameObject obj = (GameObject)PrefabUtility.InstantiatePrefab(prefab);

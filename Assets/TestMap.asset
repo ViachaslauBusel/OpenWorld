@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6760e2a0d82a11a4dbf07b75b1cb2f57, type: 3}
   m_Name: TestMap
   m_EditorClassIdentifier: 
-  _mapName: 
-  _mapSizeKm: 0
-  _tilesPerKm: 0
-  _tileSize: 0
-  _worldStartPoint: {x: 0, y: 0}
-  _worldEndPoint: {x: 0, y: 0}
-  _worldMaxHeight: 0
-  _heightmapResolutionIndex: 2
+  _mapName: TestMap
+  _mapSizeKm: 2
+  _tilesPerKm: 20
+  _tileSize: 50
+  _worldStartPoint: {x: -1000, y: -1000}
+  _worldEndPoint: {x: 1000, y: 1000}
+  _worldMaxHeight: 800
+  _heightmapResolutionIndex: 0
   _alphamapResolutionIndex: 3
   _baseMapResolutionIndex: 3
   _waterLevel: 0

@@ -2,6 +2,8 @@
 using OpenWorld.DATA;
 using System.IO;
 using UnityEditor;
+using UnityEditor.AddressableAssets.Settings;
+using UnityEditor.AddressableAssets;
 using UnityEngine;
 
 namespace OpenWorldEditor
@@ -61,12 +63,14 @@ namespace OpenWorldEditor
                     string path = map.GetPath(xKM, yKM, x, y);
 
                     AssetDatabase.CreateAsset(mapElement, path);
-                    AssetImporter.GetAtPath(path).assetBundleName = map.MapName+"/map";
+                    // AssetImporter.GetAtPath(path).assetBundleName = map.MapName+"/map";
 
                     AssetDatabase.AddObjectToAsset(terrainData, mapElement);
                   //  AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(terrainData));
                     mapElement.SetTerrainData(terrainData);
-                   
+
+                    AddToAddressableGroup(mapElement, map.MapName);
+
                     /*   TerrainLayer[] terrainLayers = new TerrainLayer[1];
                        for (int k = 0; k < 1; k++)
                        {
@@ -92,7 +96,22 @@ namespace OpenWorldEditor
 
             }
         }
-       
+
+        private static void AddToAddressableGroup(UnityEngine.Object asset, string groupName)
+        {
+            var settings = AddressableAssetSettingsDefaultObject.Settings;
+            AddressableAssetGroup group = settings.FindGroup(groupName);
+
+            if (group == null)
+            {
+                // Optionally create the group if it doesn't exist
+                group = settings.CreateGroup(groupName, false, false, true, null);
+            }
+
+            string assetPath = AssetDatabase.GetAssetPath(asset);
+            var guid = AssetDatabase.AssetPathToGUID(assetPath);
+            settings.CreateOrMoveEntry(guid, group);
+        }
     }
 }
 #endif

@@ -4,7 +4,9 @@
     "references": [
         "com.open.world",
         "com.asset.perfomance.toolkit",
-        "UnityEditor.UI"
+        "UnityEditor.UI",
+        "Unity.Addressables",
+        "Unity.Addressables.Editor"
     ],
     "includePlatforms": [
         "Editor"

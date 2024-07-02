@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace OpenWorld.DATA
 {
@@ -15,17 +16,18 @@ namespace OpenWorld.DATA
         [SerializeField] Vector3 _position;
         [SerializeField] Quaternion _rotation;
         [SerializeField] Vector3 _scale;
-        [SerializeField] Prefab<GameObject> _prefab;
+        [SerializeField] AssetReference _prefab;
 
         public Vector3 Position => _position;
         public Quaternion Rotation => _rotation;
         public Vector3 Scale => _scale;
-        public Prefab<GameObject> Prefab => _prefab;
+        public AssetReference Prefab => _prefab;
 
 #if UNITY_EDITOR
         public MapObject(GameObject prefab, Vector3 position, Quaternion rotation, Vector3 scale)
         {
-            _prefab = new Prefab<GameObject>(prefab);
+            AssetDatabase.TryGetGUIDAndLocalFileIdentifier(prefab, out string guid, out long _);
+            _prefab = new AssetReference(guid);
             _position = position;
             _rotation = rotation;
             _scale = scale;

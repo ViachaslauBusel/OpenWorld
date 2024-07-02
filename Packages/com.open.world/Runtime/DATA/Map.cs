@@ -13,7 +13,7 @@ namespace OpenWorld.DATA
         public const float SIZE_KMBLOCK = 1000.0f;
         private static readonly int[] RESOLUTIONS = { 16, 32, 64, 128, 256, 512, 1024 };
 
-        [SerializeField] string _mapName = null;
+        [SerializeField] string _mapName;
         /// <summary>Map size in kilometers</summary>
         [SerializeField] int _mapSizeKm;
         /// <summary>Number of tiles per kilometer</summary>
@@ -78,11 +78,11 @@ namespace OpenWorld.DATA
 
         public void DisplayMapSettingsGUI()
         {
-            EditorGUILayout.LabelField($"Имя : {_mapName}");
-            EditorGUILayout.LabelField($"Размер карты: {_mapSizeKm}X{_mapSizeKm}км");
-            EditorGUILayout.LabelField($"Размер тайла: {_tileSize}X{_tileSize}м");
-            EditorGUILayout.LabelField("Начало мира: " + _worldStartPoint.ToString());
-            EditorGUILayout.LabelField("Максимальная высота мира: " + _worldMaxHeight.ToString());
+            EditorGUILayout.LabelField($"Name: {_mapName}");
+            EditorGUILayout.LabelField($"Map size: {_mapSizeKm}X{_mapSizeKm} km");
+            EditorGUILayout.LabelField($"Tile size: {_tileSize}X{_tileSize} m");
+            EditorGUILayout.LabelField("World start point: " + _worldStartPoint.ToString());
+            EditorGUILayout.LabelField("Maximum world height: " + _worldMaxHeight.ToString());
             EditorGUILayout.LabelField("Heightmap Resolution: " + HeightmapResolution.ToString());
             _alphamapResolutionIndex = EditorGUILayout.Popup("Control Texture Resolution", _alphamapResolutionIndex, RESOLUTIONS.Select((i) => $"{i} x {i}").ToArray());
             _baseMapResolutionIndex = EditorGUILayout.Popup("Base Texture Resolution", _baseMapResolutionIndex, RESOLUTIONS.Select((i) => $"{i} x {i}").ToArray());

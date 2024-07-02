@@ -81,14 +81,14 @@ namespace OpenWorldEditor
 
                                 Tile mapElement = AssetDatabase.LoadAssetAtPath<Tile>(map.GetPath(xKM, yKM, xTR, yTR));
         
-                                foreach(MapObject obj in mapElement.Objects)
-                                {
-                                    if(obj.Prefab.Refresh())
-                                    {
-                                        Debug.Log("Refresh prefab");
-                                        EditorUtility.SetDirty(mapElement);
-                                    }
-                                }
+                                //foreach(MapObject obj in mapElement.Objects)
+                                //{
+                                //    if(obj.Prefab.Refresh())
+                                //    {
+                                //        Debug.Log("Refresh prefab");
+                                //        EditorUtility.SetDirty(mapElement);
+                                //    }
+                                //}
                             }
                         }
                     }
@@ -98,8 +98,8 @@ namespace OpenWorldEditor
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
 
-                BuildPipeline.BuildAssetBundles("Export/AssetBundles/Win", BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows);
-                BuildPipeline.BuildAssetBundles("Export/AssetBundles/Android", BuildAssetBundleOptions.None, BuildTarget.Android);
+               // BuildPipeline.BuildAssetBundles("Export/AssetBundles/Win", BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows);
+                BuildPipeline.BuildAssetBundles("Asset/StreamingAssets/Android", BuildAssetBundleOptions.None, BuildTarget.Android);
                //BuildPipeline.BuildAssetBundles("Export/AssetBundles/IOS", BuildAssetBundleOptions.None, BuildTarget.iOS);
             }
             if (GUILayout.Button("Export Spawn Point"))

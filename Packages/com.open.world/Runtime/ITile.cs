@@ -10,7 +10,7 @@ namespace OpenWorld
     public interface ITile
     {
         string name { get; }
-        void Load(BundlesMap bundlesMap, TileLocation location, MapLoader mapLoader);
+        void Load(TileLocation location, MapLoader mapLoader);
         void Dispose();
     }
 }

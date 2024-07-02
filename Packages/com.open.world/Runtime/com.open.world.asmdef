@@ -2,7 +2,9 @@
     "name": "com.open.world",
     "rootNamespace": "",
     "references": [
-        "com.asset.perfomance.toolkit"
+        "com.asset.perfomance.toolkit",
+        "Unity.Addressables",
+        "Unity.ResourceManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

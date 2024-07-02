@@ -46,7 +46,7 @@ namespace OpenWorld.Tools.Objects
                         DisplayObject displayObject = DisplayObject.Create(
                         tile.Data,
                         mapObject,
-                        mapObject.Prefab?.Asset,
+                        mapObject.Prefab?.editorAsset as GameObject,
                         tile.transform.Find(mapObject.GetHashCode().ToString())?.gameObject
                         );
                         if (displayObject != null) m_displays.Add(displayObject);

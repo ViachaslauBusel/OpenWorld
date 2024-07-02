@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace OpenWorld
 {
@@ -15,19 +17,27 @@ namespace OpenWorld
         private List<GameObject> objects = new List<GameObject>();
         private MapLoader mapLoader;
         private Terrain terrain;
-        public void Load(BundlesMap bundlesMap, TileLocation location, MapLoader mapLoader)
+        public void Load(TileLocation location, MapLoader mapLoader)
         {
             this.mapLoader = mapLoader;
-            coroutineLoad = StartCoroutine(ELoad(bundlesMap, location));
+            coroutineLoad = StartCoroutine(ELoad(location));
         }
-        internal IEnumerator ELoad(BundlesMap bundlesMap, TileLocation location)
+        internal IEnumerator ELoad(TileLocation location)
         {
+            // Load the Tile asset asynchronously
+            var loadHandle = Addressables.LoadAssetAsync<Tile>(location.Path);
 
-               AssetBundleRequest resource = bundlesMap.LoadTileAsync<Tile>(location.Path);
-                resource.allowSceneActivation = false;
-                yield return new WaitUntil(() => resource.isDone);
+            yield return loadHandle;
 
-              Tile = resource.asset as Tile;
+            if (loadHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+            {
+                Tile = loadHandle.Result;
+            }
+            else
+            {
+                Debug.LogError($"Failed to load Tile at path: {location.Path}");
+                yield break;
+            }
 
             TerrainData terrainData = Tile.TerrainData;
 
@@ -40,20 +50,20 @@ namespace OpenWorld
 
                 terrain = terrain_obj.GetComponent<Terrain>();
                 //SETTING TERRAIN <<<
-             //   terrain.lightmapIndex = lightmapIndex;
+                //   terrain.lightmapIndex = lightmapIndex;
                 terrain.materialTemplate = mapLoader.TerrainMaterial;
                 terrain.heightmapPixelError = 1;
                 terrain.basemapDistance = GraphicsQualitySettings.basemapDistance;
-             //   terrain.treeCrossFadeLength = 50.0f;
-            //    terrain.treeBillboardDistance = 100.0f;
+                //   terrain.treeCrossFadeLength = 50.0f;
+                //    terrain.treeBillboardDistance = 100.0f;
                 terrain.detailObjectDistance = GraphicsQualitySettings.DetailDistance;
                 terrain.detailObjectDensity = GraphicsQualitySettings.DetailDensity;
 
                 terrain_obj.transform.position = location.Position;
                 //  terrain_obj.layer = LayerMask.NameToLayer("Terrain");
 
-           //     if (lightmapIndex >= 0) Debug.Log($"Scale on light:{terrain.realtimeLightmapIndex}");
-            //    else Debug.Log($"Scale:{terrain.realtimeLightmapIndex}");
+                //     if (lightmapIndex >= 0) Debug.Log($"Scale on light:{terrain.realtimeLightmapIndex}");
+                //    else Debug.Log($"Scale:{terrain.realtimeLightmapIndex}");
 
                 gameObject.name = "Tile";
 
@@ -69,7 +79,7 @@ namespace OpenWorld
 
                 terrain_obj.transform.SetParent(transform);
             });
-           
+
             if (Tile.WaterTile != null)
             {
                 TaskManager.Execute(() =>
@@ -78,19 +88,20 @@ namespace OpenWorld
                     MeshFilter meshFilter = water.AddComponent<MeshFilter>();
                     MeshRenderer meshRenderer = water.AddComponent<MeshRenderer>();
                     meshFilter.mesh = Tile.WaterTile;
-                   // meshRenderer.material = SettingsQuality.Instance.WaterMaterial;
+                    // meshRenderer.material = SettingsQuality.Instance.WaterMaterial;
                     water.transform.SetParent(transform);
                     water.transform.localPosition = new Vector3(0.0f, mapLoader.Map.WaterLevel, 0.0f) + location.Position;
-                 //   water.AddComponent<WaterObject>();
+                    //   water.AddComponent<WaterObject>();
                 });
             }
 
             foreach (MapObject mapObject in Tile.Objects)
             {
 
-
-                TaskManager.Execute(mapObject.Prefab, (prefab) =>
+                AsyncOperationHandle loadHandler = mapObject.Prefab.LoadAssetAsync<GameObject>();
+                loadHandler.Completed += (h) =>
             {
+                GameObject prefab = h.Result as GameObject;
                 if (prefab == null) return;
                 GameObject obj = Instantiate(prefab, mapObject.Position, mapObject.Rotation);
 
@@ -124,13 +135,13 @@ namespace OpenWorld
                 //}
 
 
-            });
+            };
 
             }
 
-           if (coroutineLoad != null)
-               coroutineLoad = null;
-           else DestroyImmediate(gameObject);
+            if (coroutineLoad != null)
+                coroutineLoad = null;
+            else DestroyImmediate(gameObject);
         }
 
         private void Update()

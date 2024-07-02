@@ -18,7 +18,6 @@ namespace OpenWorld
         private ITile[,] _tiles;
         private TileLocation[,] _tilesLocations;
         private Vector4 _border = new Vector4();
-        private BundlesMap _bundlesMap;
         private Transform _trackingObj;
 
         private bool _ready = false;
@@ -111,7 +110,6 @@ namespace OpenWorld
             Time.timeScale = 0.0f;
 
             yield return new WaitWhile(() => !BundlesManager.IsReady);
-            _bundlesMap = BundlesManager.GetBundlesMap(_map.MapName);
             SetupMap();
             Time.timeScale = 1.0f;
         }
@@ -247,7 +245,7 @@ namespace OpenWorld
 
             if (_map.IsLocationValid(location) == false) { obj.name = "OutsideTile"; return; }
             
-            _tiles[x, y].Load(_bundlesMap, location, this);
+            _tiles[x, y].Load(location, this);
         }
 
         public void SetTarget(Transform target)

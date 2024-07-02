@@ -4,6 +4,7 @@ using OpenWorldEditor;
 using OpenWorldEditor.SceneWindow;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -44,10 +45,21 @@ namespace OpenWorld.Tools.Objects
                 string pathToPrefab = AssetDatabase.GetAssetPath(prefab);
                 if (string.IsNullOrEmpty(pathToPrefab)) continue;//Если у обьекта нет префаба
 
-                //Если префаб не прекреплен к нужному бандлу
-                if (!AssetImporter.GetAtPath(pathToPrefab).assetBundleName.StartsWith(TabSetting.Map.MapName.ToLower())) { Debug.LogError("Добавляемый объект не прикреплён к бандлу или находиться в неправильном бандле"); continue; }
-
                 string guid = AssetDatabase.AssetPathToGUID(pathToPrefab);
+
+                // Check if the prefab is attached to the correct Addressable group
+                var settings = AddressableAssetSettingsDefaultObject.Settings;
+                var entry = settings.FindAssetEntry(guid);
+                if (entry == null)
+                {
+                    Debug.LogError($"The added object is not attached to the Addressable group");
+                    continue;
+                }
+
+                ////Если префаб не прекреплен к нужному бандлу
+                //if (!AssetImporter.GetAtPath(pathToPrefab).assetBundleName.StartsWith(TabSetting.Map.MapName.ToLower())) { Debug.LogError("Добавляемый объект не прикреплён к бандлу или находиться в неправильном бандле"); continue; }
+
+              
                 if (string.IsNullOrEmpty(guid)) { Debug.LogError("Не удалось найти guid"); continue; }
 
                 attachObjects.Add(new AttachObject(obj, prefab));//Добавить обьект в массив на добовление на карту  
