@@ -29,9 +29,10 @@ namespace OpenWorld
 
             yield return loadHandle;
 
-            if (loadHandle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+            if (loadHandle.Status == AsyncOperationStatus.Succeeded)
             {
                 Tile = loadHandle.Result;
+                Debug.Log($"Loaded Tile at path: {location.Path}");
             }
             else
             {
@@ -100,43 +101,42 @@ namespace OpenWorld
 
                 AsyncOperationHandle loadHandler = mapObject.Prefab.LoadAssetAsync<GameObject>();
                 loadHandler.Completed += (h) =>
-            {
-                GameObject prefab = h.Result as GameObject;
-                if (prefab == null) return;
-                GameObject obj = Instantiate(prefab, mapObject.Position, mapObject.Rotation);
+                {
+                    GameObject prefab = h.Result as GameObject;
+                    if (prefab == null) return;
+                    GameObject obj = Instantiate(prefab, mapObject.Position, mapObject.Rotation);
 
-                obj.transform.SetParent(transform);
-                obj.transform.localScale = mapObject.Scale;
-                foreach (MeshRenderer _m in obj.GetComponentsInChildren<MeshRenderer>()) _m.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-                obj.isStatic = true;
-                foreach (Transform _t in obj.GetComponentsInChildren<Transform>()) _t.gameObject.isStatic = true;
+                    obj.transform.SetParent(transform);
+                    obj.transform.localScale = mapObject.Scale;
+                    foreach (MeshRenderer _m in obj.GetComponentsInChildren<MeshRenderer>()) _m.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                    obj.isStatic = true;
+                    foreach (Transform _t in obj.GetComponentsInChildren<Transform>()) _t.gameObject.isStatic = true;
 
-                objects.Add(obj);
-
-
-                //-----IOS-Focus--------------
-                //foreach (Collider col in obj.GetComponentsInChildren<Collider>()) {
-                //    col.enabled = true;
-                //    Message message = new Message();
-                //    message.Layer = MsgLayer.System;
-                //    message.CharName = "system";
-                //    message.Msg = $"Collider on {col.gameObject.name}:{col.enabled}";
-
-                //    MessagesManager.Add(message);
-                //}
-                //foreach (Collider col in obj.GetComponents<Collider>()) {
-                //    col.enabled = true;
-                //    Message message = new Message();
-                //    message.Layer = MsgLayer.System;
-                //    message.CharName = "system";
-                //    message.Msg = $"Collider on {col.gameObject.name}:{col.enabled}";
-
-                //    MessagesManager.Add(message);
-                //}
+                    objects.Add(obj);
 
 
-            };
+                    //-----IOS-Focus--------------
+                    //foreach (Collider col in obj.GetComponentsInChildren<Collider>()) {
+                    //    col.enabled = true;
+                    //    Message message = new Message();
+                    //    message.Layer = MsgLayer.System;
+                    //    message.CharName = "system";
+                    //    message.Msg = $"Collider on {col.gameObject.name}:{col.enabled}";
 
+                    //    MessagesManager.Add(message);
+                    //}
+                    //foreach (Collider col in obj.GetComponents<Collider>()) {
+                    //    col.enabled = true;
+                    //    Message message = new Message();
+                    //    message.Layer = MsgLayer.System;
+                    //    message.CharName = "system";
+                    //    message.Msg = $"Collider on {col.gameObject.name}:{col.enabled}";
+
+                    //    MessagesManager.Add(message);
+                    //}
+
+
+                };
             }
 
             if (coroutineLoad != null)
