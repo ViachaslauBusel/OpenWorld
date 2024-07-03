@@ -50,10 +50,14 @@ namespace OpenWorld
                 terrain_obj.layer = LayerMask.NameToLayer("Terrain");
 
                 terrain = terrain_obj.GetComponent<Terrain>();
+                terrain.drawTreesAndFoliage = false;
+                terrain.basemapDistance = 0;
+                terrain.detailObjectDistance = 0;
                 //SETTING TERRAIN <<<
                 //   terrain.lightmapIndex = lightmapIndex;
                 terrain.materialTemplate = mapLoader.TerrainMaterial;
-                terrain.heightmapPixelError = 1;
+                terrain.heightmapPixelError = 5;
+                terrain.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
                 terrain.basemapDistance = GraphicsQualitySettings.basemapDistance;
                 //   terrain.treeCrossFadeLength = 50.0f;
                 //    terrain.treeBillboardDistance = 100.0f;
