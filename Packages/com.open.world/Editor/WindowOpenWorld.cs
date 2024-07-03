@@ -1,10 +1,5 @@
-﻿#if UNITY_EDITOR
-
-using OpenWorld.Tabs.NPC;
+﻿using OpenWorldEditor.MapObjectTab;
 using OpenWorldEditor.SceneWindow;
-using OpenWorldEditor.Tabs.Monsters;
-using OpenWorldEditor.Tabs.NPCs;
-using OpenWorldEditor.Tabs.Res;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,99 +10,54 @@ namespace OpenWorldEditor
     /// </summary>
     public class WindowOpenWorld : EditorWindow
     {
-        private static WindowOpenWorld m_window;
+        private static WindowOpenWorld _window;
 
         [MenuItem("Window/Open World")]
         public static void ShowWindow()
         {
-            m_window = EditorWindow.GetWindow<WindowOpenWorld>(false, "Open World");
-            m_window.minSize = new Vector2(200.0f, 100.0f);
+            _window = EditorWindow.GetWindow<WindowOpenWorld>(false, "Open World");
+            _window.minSize = new Vector2(200.0f, 100.0f);
            
         }
 
         private void OnEnable()
         {
-            m_window = this;
-            //Подписаться на событие перерисовки сцены редактора
-            SceneView.duringSceneGui += this.OnSceneGUI;
-            //Восстановить работу инструмента отвечающего за переключение вкладок управление
+            _window = this;
+            // Subscribe to the editor scene redraw event
+            SceneView.duringSceneGui += OnSceneGUI;
+            // Restore the operation of the tool responsible for switching control tabs
             WindowTabs.Restore();
-            //Подписаться на событие переключение вкладок
-            WindowTabs.updateTab += UpdateTab;
+            // Subscribe to the tab switching event
+            WindowTabs.OnUpdateTab += OnUpdateTab;
         }
+
         private void OnDisable()
         {
-            WindowTabs.updateTab -= UpdateTab;
-            SceneView.duringSceneGui -= this.OnSceneGUI;
-            Dispose();
+            WindowTabs.OnUpdateTab -= OnUpdateTab;
+            SceneView.duringSceneGui -= OnSceneGUI;
         }
-        public static void Refresh() => m_window?.Repaint();
-        private void Dispose()
-        {
-            SceneMonsters.Stop();
-            SceneResources.Stop();
-            SceneNPCs.Stop();
-        }
+
         /// <summary>
-        /// Обработка события переключение вкладок
+        /// Handles the tab switching event
         /// </summary>
-        public void UpdateTab(Tab tab)
+        private void OnUpdateTab(Tab tab)
         {
             if (tab == Tab.None) WorldLoader.Destroy();
             else if (tab != Tab.Setting) WorldLoader.LoadMap();
-
-            //Поменялся инструмент, удалить используемые ресурсы на сцене
-            Dispose();
-            switch (tab)
-            {
-                case Tab.Terrain:
-                    break;
-                case Tab.Monsters:
-                    SceneMonsters.Start();
-                    break;
-                case Tab.NPC:
-                    SceneNPCs.Start();
-                    break;
-                case Tab.Resources:
-                    SceneResources.Start();
-                    break;
-                case Tab.Machine:
-                case Tab.Objects:
-                    break;
-                
-                case Tab.Export:
-                case Tab.Setting:
-                    break;
-
-                case Tab.None:
-                    break;
-            }
         }
-        private void OnGUI()//Отрисовка Окна редактора
-        { 
 
-            //Отрисовать кнопки вкладок
+        private void OnGUI() // Drawing the editor window
+        {
+            // Draw tab buttons
             WindowTabs.Draw();
-
 
             switch (WindowTabs.ActiveTab)
             {
-                case Tab.Terrain:// Отрисовка содержимого вкладок
+                case Tab.Terrain: // Drawing the content of tabs
                     TabTerrain.Draw();
                     break;
-                case Tab.Monsters:
-                    TabMonsters.Draw();
-                    break;
-                case Tab.NPC:
-                    TabNPC.Draw();
-                    break;
-                case Tab.Resources:
-                    TabResources.Draw();
-                    break;
-                case Tab.Machine:
-                    break;
                 case Tab.Objects:
-                    TabObjects.Draw();
+                    ObjectTab.Draw();
                     break;
                 case Tab.Export:
                     TabExport.Draw();
@@ -116,45 +66,19 @@ namespace OpenWorldEditor
                     TabSetting.Draw();
                     break;
             }
-
-
         }
 
-
         /// <summary>
-        /// Обработка события обновления сцены. Отрисовка инструментов на сцене
+        /// Handles the scene update event. Drawing tools on the scene.
         /// </summary>
         private void OnSceneGUI(SceneView sceneView)
         {
             WorldLoader.OnSceneGUI();
-            switch (WindowTabs.ActiveTab)
+            if (WindowTabs.ActiveTab == Tab.Objects)
             {
-                case Tab.None://Редактирование отключено
-                    return;
-                case Tab.Terrain:// Отрисовать инструменты для Редактирование террейна
-                    break;
-                case Tab.Monsters:
-                    SceneMonsters.OnSceneGUI(sceneView);
-                    break;
-                case Tab.NPC:
-                    SceneNPCs.OnSceneGUI(sceneView);
-                    break;
-                case Tab.Resources:
-                    SceneResources.OnSceneGUI(sceneView);
-                    break;
-                case Tab.Machine:
-                    break;
-                case Tab.Objects:
-                    m_window.Repaint();
-                    break;
-                case Tab.Export:
-                    break;
-                case Tab.Setting:
-                    break;
+                _window.Repaint();
             }
         }
-
     }
 
 }
-#endif

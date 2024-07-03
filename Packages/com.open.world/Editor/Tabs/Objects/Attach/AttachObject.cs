@@ -1,24 +1,22 @@
-﻿#if UNITY_EDITOR
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace OpenWorld.Tools.Objects
+namespace OpenWorldEditor.MapObjectTab.Attach
 {
     public struct AttachObject
     {
         /// <summary>
-        /// Обьект на сцене
+        /// The object in the scene.
         /// </summary>
-        public GameObject Object { get; }
+        public GameObject SceneObject { get; }
         /// <summary>
-        /// Префаб
+        /// The prefab associated with the scene object.
         /// </summary>
         public GameObject Prefab { get; }
 
-        public AttachObject(GameObject sceneObj, GameObject prefab)
+        public AttachObject(GameObject sceneObject, GameObject prefab)
         {
-            this.Object = sceneObj;
+            this.SceneObject = sceneObject;
             this.Prefab = prefab;
         }
     }
 }
-#endif
