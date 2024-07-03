@@ -1,5 +1,6 @@
 ﻿using OpenWorldEditor.MapObjectTab.Attach;
 using OpenWorldEditor.MapObjectTab.Display;
+using OpenWorldEditor.MapObjectTab.Settings;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace OpenWorldEditor.MapObjectTab
 {
     public static class ObjectTab
     {
-        private enum Tools { None, AddObject, DisplayObject }
+        private enum Tools { None, AddObject, DisplayObject, Settings }
         private static Tools activeTool = Tools.None;
 
         public static void DrawTabIcon()
@@ -55,8 +56,8 @@ namespace OpenWorldEditor.MapObjectTab
                 case Tools.DisplayObject:
                     MapObjectDisplayTool.Draw();
                     break;
-                case Tools.None:
-                    // Optionally handle the None case
+                case Tools.Settings:
+                    ObjectSettingsTool.Draw();
                     break;
             }
         }

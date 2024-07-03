@@ -21,7 +21,7 @@ namespace OpenWorld.SceneWindow
         public void Initial()
         {
             blockSize = TabSetting.Map.TileSize;
-            _areaVisible = TabSetting.areaVisible * blockSize + (blockSize / 2.0f);
+            _areaVisible = TabSetting.MapSettings.AreaVisible * blockSize + (blockSize / 2.0f);
             CalculateBorder();
             CalculeteVisibleNPCs();
         }

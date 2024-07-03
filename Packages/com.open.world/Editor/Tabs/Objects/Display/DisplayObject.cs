@@ -14,13 +14,15 @@ namespace OpenWorldEditor.MapObjectTab.Display
         public GameObject Prefab { get; private set; }
         /// <summary>Loaded object on the scene</summary>
         public GameObject ObjectOnScene { get; private set; }
+        public string LayerName { get; }
 
-        private DisplayObject(Tile tileData, MapObject objectData, GameObject prefab, GameObject sceneObject)
+        private DisplayObject(Tile tileData, MapObject objectData, GameObject prefab, GameObject sceneObject, string layerName)
         {
             TileData = tileData;
             ObjectData = objectData;
             Prefab = prefab;
             ObjectOnScene = sceneObject;
+            LayerName = layerName;
         }
 
 
@@ -45,14 +47,14 @@ namespace OpenWorldEditor.MapObjectTab.Display
             EditorUtility.SetDirty(TileData);
         }
 
-        internal static DisplayObject Create(Tile tileData, MapObject objectData, GameObject prefab, GameObject sceneObject)
+        internal static DisplayObject Create(Tile tileData, MapObject objectData, GameObject prefab, GameObject sceneObject, string layerName)
         {
             if (tileData == null) { Debug.LogError("DisplayObject: Tile data not found"); return null; }
             if (objectData == null) { Debug.LogError("DisplayObject: Object data on tile not found"); return null; }
             if (prefab == null) { Debug.LogError("DisplayObject: Prefab of object on tile not found."); }
             if (sceneObject == null) { Debug.LogError("DisplayObject: Object on scene not found"); }
 
-            return new DisplayObject(tileData, objectData, prefab, sceneObject);
+            return new DisplayObject(tileData, objectData, prefab, sceneObject, layerName);
         }
     }
 }

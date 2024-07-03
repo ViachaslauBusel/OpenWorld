@@ -65,7 +65,8 @@ namespace OpenWorldEditor.SceneWindow
             MapLoader mapLoader = obj.AddComponent<MapLoader>();
             mapLoader.SetTarget(target);
             mapLoader.SetMap(TabSetting.Map);
-            GraphicsQualitySettings.AreaVisible = TabSetting.areaVisible;
+            mapLoader.SetSetting(TabSetting.MapSettings);
+            GraphicsQualitySettings.AreaVisible = TabSetting.MapSettings.AreaVisible;
             mapLoader.LoadMap();
             RenderSettings.fog = false;
             return mapLoader;

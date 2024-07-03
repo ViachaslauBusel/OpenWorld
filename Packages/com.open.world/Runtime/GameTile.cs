@@ -1,5 +1,6 @@
 ﻿using Bundles;
 using OpenWorld.DATA;
+using OpenWorld.Helpers;
 using OpenWorld.Loader;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,7 +44,6 @@ namespace OpenWorld
             TerrainData terrainData = Tile.TerrainData;
 
 
-
             TaskManager.Instance.Execute(() =>
             {
                 GameObject terrain_obj = Terrain.CreateTerrainGameObject(terrainData);
@@ -55,7 +55,7 @@ namespace OpenWorld
                 terrain.detailObjectDistance = 0;
                 //SETTING TERRAIN <<<
                 //   terrain.lightmapIndex = lightmapIndex;
-                terrain.materialTemplate = mapLoader.TerrainMaterial;
+                terrain.materialTemplate = mapLoader.Settings.TerrainMaterial;
                 terrain.heightmapPixelError = 5;
                 terrain.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
                 terrain.basemapDistance = GraphicsQualitySettings.basemapDistance;
@@ -102,6 +102,7 @@ namespace OpenWorld
 
             foreach (MapObject mapObject in Tile.Objects)
             {
+                if(mapLoader.Settings.ObjectLayerMask.ContainsLayer(mapObject.Layer) == false) { continue; }
 
                 AsyncOperationHandle loadHandler = mapObject.Prefab.LoadAssetAsync<GameObject>();
                 loadHandler.Completed += (h) =>
@@ -155,6 +156,7 @@ namespace OpenWorld
                //     obj.SetActive(Vector3.Distance(PlayerController.Instance.transform.position, obj.transform.position) < 25.0f);
             }
         }
+
         public void Dispose()
         {
             if (terrain.lightmapIndex >= 0)

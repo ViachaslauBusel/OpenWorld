@@ -13,8 +13,7 @@ namespace OpenWorld
     public class MapLoader : MonoBehaviour
     {
         [SerializeField] Map _map;
-        [SerializeField] Material _waterMaterial;
-        [SerializeField] Material _terrainMaterial;
+        [SerializeField] MapSettings _settings;
         private ITile[,] _tiles;
         private TileLocation[,] _tilesLocations;
         private Vector4 _border = new Vector4();
@@ -24,8 +23,7 @@ namespace OpenWorld
 
         public bool Ready => _ready;
         public Map Map => _map;
-        public Material TerrainMaterial => _terrainMaterial;
-        public Material WaterMaterial => _waterMaterial;
+        public MapSettings Settings => _settings;
         public Transform TrackingObject => _trackingObj;
 
 
@@ -56,7 +54,6 @@ namespace OpenWorld
                 return loadedTiles / (float)tileCount;
             }
         }
-
 
         private int GetLoadedTileCount()
         {
@@ -101,7 +98,6 @@ namespace OpenWorld
 
             SetupMap();
         }
-
 
         private void SetupMap()
         {
@@ -245,6 +241,11 @@ namespace OpenWorld
         public void SetMap(Map map)
         {
             _map = map;
+        }
+
+        public void SetSetting(MapSettings mapSettings)
+        {
+            _settings = mapSettings;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace OpenWorld.DATA
 {
-    [CreateAssetMenu(fileName = "Map", menuName = "Map Data", order = 50), System.Serializable]
+    [CreateAssetMenu(fileName = "Map", menuName = "OpenWorld/Map Data", order = 50), System.Serializable]
     public class Map : ScriptableObject
     {
         public const float SIZE_KMBLOCK = 1000.0f;
@@ -57,7 +58,6 @@ namespace OpenWorld.DATA
         {
             return !string.IsNullOrEmpty(_mapName) && _mapSizeKm > 0 && _tilesPerKm > 0 && _tileSize > 0;
         }
-
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #if UNITY_EDITOR

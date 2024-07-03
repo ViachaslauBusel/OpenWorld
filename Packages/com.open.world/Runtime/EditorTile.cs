@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using Bundles;
 using OpenWorld.DATA;
+using OpenWorld.Helpers;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -14,12 +15,16 @@ namespace OpenWorld
     {
         public Terrain Terrain { get; private set; }
         public TileLocation Location { get; private set; }
+
+        private MapLoader _mapLoader;
+
         /// <summary>Данные для загрузки тайла</summary>
         public Tile Data { get; private set; }
         public List<GameObject> gameObjects = new List<GameObject>();
         public void Load(TileLocation location, MapLoader mapLoader) 
         {
             Location = location;
+            _mapLoader = mapLoader;
             Load(location, mapLoader.Map);
         }
         public void Load(TileLocation location, Map map)
@@ -71,6 +76,8 @@ namespace OpenWorld
 
             foreach (MapObject mapObject in Data.Objects)
             {
+                if (_mapLoader.Settings.ObjectLayerMask.ContainsLayer(mapObject.Layer) == false) { continue; }
+
                 GameObject prefab = mapObject.Prefab.editorAsset as GameObject;
                 if (prefab == null) continue;
 

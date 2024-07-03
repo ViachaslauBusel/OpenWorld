@@ -1,6 +1,7 @@
 ﻿using OpenWorld.DATA;
 using OpenWorldEditor;
 using OpenWorldEditor.SceneWindow;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -12,9 +13,23 @@ namespace OpenWorldEditor.MapObjectTab.Attach
 {
     public static class MapObjectAttachTool
     {
+        private static int _selectedLayerIndex = 0; // Индекс выбранного слоя
+
+        static MapObjectAttachTool()
+        {
+            var settings = MapProjectSettings.GetOrCreateSettings();
+            _selectedLayerIndex = PlayerPrefs.GetInt("MapObjectAttachTool.SelectedLayerIndex", 0);
+            _selectedLayerIndex = string.IsNullOrEmpty(settings.GetLayer(_selectedLayerIndex)) ? 0 : _selectedLayerIndex;
+        }
+
         public static void Draw()
         {
             GUILayout.Space(15.0f);
+
+            DrawLayerSelector();
+
+            GUILayout.Space(15.0f);
+
             if (GUILayout.Button("Attach Selected Object"))
             {
                 AttachSelectedObjectsToMap(Selection.gameObjects);
@@ -28,6 +43,23 @@ namespace OpenWorldEditor.MapObjectTab.Attach
 
                 AttachSelectedObjectsToMap(rootObjects.ToArray());
             }
+        }
+
+        private static void DrawLayerSelector()
+        {
+            var settings = MapProjectSettings.GetOrCreateSettings();
+            var layerNamesList = new List<string>();
+
+            for (int i = 0; i < MapProjectSettings.MAX_LAYERS; i++)
+            {
+                string layerName = settings.GetLayer(i);
+                if (!string.IsNullOrEmpty(layerName))
+                {
+                    layerNamesList.Add(layerName);
+                }
+            }
+
+            _selectedLayerIndex = EditorGUILayout.Popup("Layer", _selectedLayerIndex, layerNamesList.ToArray());
         }
 
         private static void AttachSelectedObjectsToMap(GameObject[] gameObjects)
@@ -85,6 +117,7 @@ namespace OpenWorldEditor.MapObjectTab.Attach
                     }
 
                     MapObject mapObject = new MapObject(
+                        _selectedLayerIndex,
                         attachObject.Prefab,
                         attachObject.SceneObject.transform.position,
                         attachObject.SceneObject.transform.rotation,
@@ -99,6 +132,7 @@ namespace OpenWorldEditor.MapObjectTab.Attach
                 WorldLoader.Reload();
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
+                PlayerPrefs.SetInt("MapObjectAttachTool.SelectedLayerIndex", _selectedLayerIndex);
             }
         }
     }

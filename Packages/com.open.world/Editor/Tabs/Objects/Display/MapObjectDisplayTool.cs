@@ -6,8 +6,9 @@ using UnityEngine;
 
 namespace OpenWorldEditor.MapObjectTab.Display
 {
-    class MapObjectDisplayTool
+    internal static class MapObjectDisplayTool
     {
+        private static MapProjectSettings _settings;
         private static Vector2 _scrollPosition = Vector2.zero;
         /// <summary>Selected object on the scene</summary>
         private static GameObject _selectedObject = null;
@@ -17,6 +18,12 @@ namespace OpenWorldEditor.MapObjectTab.Display
         private static DisplayObject _selectedDisplayObject;
         /// <summary>List of selected tiles</summary>
         private static List<EditorTile> _selectedTiles = new List<EditorTile>();
+
+
+        static MapObjectDisplayTool()
+        {
+            _settings = MapProjectSettings.GetOrCreateSettings();
+        }
 
         public static void Draw()
         {
@@ -45,7 +52,8 @@ namespace OpenWorldEditor.MapObjectTab.Display
                         tile.Data,
                         mapObject,
                         mapObject.Prefab?.editorAsset as GameObject,
-                        tile.transform.Find(mapObject.GetHashCode().ToString())?.gameObject
+                        tile.transform.Find(mapObject.GetHashCode().ToString())?.gameObject,
+                        _settings.GetLayer(mapObject.Layer)
                         );
                         if (displayObject != null) _displayedAttachedObjects.Add(displayObject);
                     }
@@ -71,6 +79,9 @@ namespace OpenWorldEditor.MapObjectTab.Display
                     GUILayout.BeginHorizontal();
 
                     GUILayout.Label(_displayedAttachedObjects[i]?.Prefab.name ?? "Prefab not found");
+
+                    // Display the object's layer
+                    GUILayout.Label(_displayedAttachedObjects[i].LayerName);
 
                     GUI.enabled = _selectedDisplayObject != _displayedAttachedObjects[i];
                     if (GUILayout.Button("Select"))
