@@ -6,14 +6,13 @@ namespace OpenWorld
 {
     public static class GraphicsQualitySettings
     {
-        private static int _areaVisible;
         private static int _basemapDistance = 50;
         private static int _quality;
         private static float _detailDistance;
         private static float _detailDensity;
+
         static GraphicsQualitySettings()
         {
-            _areaVisible = PlayerPrefs.GetInt("areaVisible", 1);
             _basemapDistance = PlayerPrefs.GetInt("basemapDistance", 50);
             _quality = PlayerPrefs.GetInt("QualityLevel", 1);
             _detailDistance = PlayerPrefs.GetFloat("DetailDistance", 80.0f);
@@ -72,19 +71,5 @@ namespace OpenWorld
                 return _basemapDistance;
             }
         }
-        public static int AreaVisible
-        {
-            set
-            {
-                value = Mathf.Clamp(value, 1, 40);
-                PlayerPrefs.SetInt("areaVisible", value);
-                _areaVisible = value;
-            }
-            get
-            {
-                return _areaVisible;
-            }
-        }
-
     }
 }

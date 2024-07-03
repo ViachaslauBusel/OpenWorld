@@ -101,8 +101,8 @@ namespace OpenWorld
 
         private void SetupMap()
         {
-            _tiles = new ITile[GraphicsQualitySettings.AreaVisible * 2 + 1, GraphicsQualitySettings.AreaVisible * 2 + 1];
-            _tilesLocations = new TileLocation[GraphicsQualitySettings.AreaVisible * 2 + 1, GraphicsQualitySettings.AreaVisible * 2 + 1];
+            _tiles = new ITile[_settings.AreaVisible * 2 + 1, _settings.AreaVisible * 2 + 1];
+            _tilesLocations = new TileLocation[_settings.AreaVisible * 2 + 1, _settings.AreaVisible * 2 + 1];
 
             CalculateBorder();
 
@@ -114,8 +114,8 @@ namespace OpenWorld
                 for (int y = 0; y < _tiles.GetLength(1); y++)
                 {
                     _tilesLocations[x, y] = startLocation;
-                    _tilesLocations[x, y].Xtr -= GraphicsQualitySettings.AreaVisible - x;
-                    _tilesLocations[x, y].Ytr -= GraphicsQualitySettings.AreaVisible - y;
+                    _tilesLocations[x, y].Xtr -= _settings.AreaVisible - x;
+                    _tilesLocations[x, y].Ytr -= _settings.AreaVisible - y;
                     CreateTerrain(x, y, _tilesLocations[x, y]);
                 }
             }

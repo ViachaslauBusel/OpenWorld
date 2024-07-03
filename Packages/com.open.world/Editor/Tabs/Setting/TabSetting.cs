@@ -1,6 +1,6 @@
 ﻿using OpenWorld.DATA;
-using OpenWorldEditor.SceneWindow;
 using OpenWorldEditor.Tabs.Setting;
+using OpenWorldEditor.Tools.EditorScene;
 using UnityEditor;
 using UnityEngine;
 
@@ -44,7 +44,7 @@ namespace OpenWorldEditor
         private static void SaveSettings()
         {
             SettingsRegistry.Settings.ForEach(c => c.Save());
-            WorldLoader.Reload();
+            MapEditorLoader.Reload();
         }
     }
 }

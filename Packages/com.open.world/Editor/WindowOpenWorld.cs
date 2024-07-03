@@ -1,5 +1,5 @@
 ﻿using OpenWorldEditor.MapObjectTab;
-using OpenWorldEditor.SceneWindow;
+using OpenWorldEditor.Tools.EditorScene;
 using UnityEditor;
 using UnityEngine;
 
@@ -42,8 +42,8 @@ namespace OpenWorldEditor
         /// </summary>
         private void OnUpdateTab(Tab tab)
         {
-            if (tab == Tab.None) WorldLoader.Destroy();
-            else if (tab != Tab.Setting) WorldLoader.LoadMap();
+            if (tab == Tab.None) MapEditorLoader.Destroy();
+            else if (tab != Tab.Setting) MapEditorLoader.CreateOrGetMapLoader();
         }
 
         private void OnGUI() // Drawing the editor window
@@ -73,7 +73,7 @@ namespace OpenWorldEditor
         /// </summary>
         private void OnSceneGUI(SceneView sceneView)
         {
-            WorldLoader.OnSceneGUI();
+            MapEditorLoader.OnSceneGUI();
             if (WindowTabs.ActiveTab == Tab.Objects)
             {
                 _window.Repaint();

@@ -1,7 +1,5 @@
 ﻿using OpenWorld.DATA;
-using OpenWorldEditor;
-using OpenWorldEditor.SceneWindow;
-using System;
+using OpenWorldEditor.Tools.EditorScene;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -129,7 +127,7 @@ namespace OpenWorldEditor.MapObjectTab.Attach
 
                     GameObject.DestroyImmediate(attachObject.SceneObject);
                 }
-                WorldLoader.Reload();
+                MapEditorLoader.Reload();
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
                 PlayerPrefs.SetInt("MapObjectAttachTool.SelectedLayerIndex", _selectedLayerIndex);
