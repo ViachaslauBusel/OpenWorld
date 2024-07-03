@@ -98,21 +98,10 @@ namespace OpenWorld
             if (Ready) { Debug.LogError("the map is already loaded"); return; }
             if (_map == null || _map.IsValid() == false) { Debug.LogError("Map is not valid"); return; }
 
-#if UNITY_EDITOR
+
             SetupMap();
-#else
-            StartCoroutine(SetupMapAsync());
-#endif
         }
 
-        private IEnumerator SetupMapAsync()
-        {
-            Time.timeScale = 0.0f;
-
-            yield return new WaitWhile(() => !BundlesManager.IsReady);
-            SetupMap();
-            Time.timeScale = 1.0f;
-        }
 
         private void SetupMap()
         {
