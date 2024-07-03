@@ -146,7 +146,6 @@ namespace OpenWorld.DATA
         {
             _mapName = null;
         }
-
 #endif
     }
 }
