@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace OpenWorld.Helpers
 {
-    internal static class ObjectLayerMaskHelper
+    public static class ObjectLayerMaskHelper
     {
-        internal static bool ContainsLayer(this ObjectLayerMask layermask, int layer)
+        public static bool ContainsLayer(this ObjectLayerMask layermask, int layer)
         {
             return ((int)layermask & (1 << layer)) != 0;
         }
