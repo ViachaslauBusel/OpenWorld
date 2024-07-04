@@ -35,6 +35,22 @@ namespace OpenWorldEditor
             return _objectsLayers[index];
         }
 
+        public List<string> GetLayerNames()
+        {
+            var layerNamesList = new List<string>();
+
+            for (int i = 0; i < MAX_LAYERS; i++)
+            {
+                string layerName = GetLayer(i);
+                if (!string.IsNullOrEmpty(layerName))
+                {
+                    layerNamesList.Add(layerName);
+                }
+            }
+
+            return layerNamesList;
+        }
+
         // Loading or creating the settings object
         internal static OpenWorldProjectSettings GetOrCreateSettings()
         {
