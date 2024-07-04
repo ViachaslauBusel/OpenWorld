@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
 namespace OpenWorld.Helpers
@@ -47,6 +48,58 @@ namespace OpenWorld.Helpers
             position.x = Mathf.Clamp(position.x, 0, map.MapSizeKilometers * Map.SIZE_KMBLOCK);
             position.z = Mathf.Clamp(position.z, 0, map.MapSizeKilometers * Map.SIZE_KMBLOCK);
             return position;
+        }
+
+
+        /// <summary>
+        /// Enumerates all tile locations within the map.
+        /// </summary>
+        /// <param name="map">The map to enumerate tile locations for.</param>
+        /// <returns>An enumerable of all possible tile locations within the map.</returns>
+        public static IEnumerable<TileLocation> EnumerateAllTileLocations(this Map map)
+        {
+            for (int kilometerY = 0; kilometerY < map.MapSizeKilometers; kilometerY++)
+            {
+                for (int kilometerX = 0; kilometerX < map.MapSizeKilometers; kilometerX++)
+                {
+                    for (int tileRow = 0; tileRow < map.TilesPerKilometer; tileRow++)
+                    {
+                        for (int tileColumn = 0; tileColumn < map.TilesPerKilometer; tileColumn++)
+                        {
+                            yield return new TileLocation(map)
+                            {
+                                Xkm = kilometerX,
+                                Ykm = kilometerY,
+                                Xtr = tileColumn,
+                                Ytr = tileRow
+                            };
+                        }
+                    }
+                }
+            }
+        }
+
+        public static IEnumerable<Tile> EnumerateAllTiles(this Map map)
+        {
+#if UNITY_EDITOR
+            foreach (TileLocation location in map.EnumerateAllTileLocations())
+            {
+                yield return AssetDatabase.LoadAssetAtPath<Tile>(location.Path);
+            }
+#else
+            throw new NotImplementedException();
+#endif
+        }
+
+        public static IEnumerable<MapObject> EnumerateAllMapObjects(this Map map)
+        {
+            foreach (Tile tile in map.EnumerateAllTiles())
+            {
+                foreach (MapObject mapObject in tile.Objects)
+                {
+                    yield return mapObject;
+                }
+            }
         }
     }
 }
