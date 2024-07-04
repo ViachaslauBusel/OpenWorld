@@ -52,7 +52,7 @@ namespace OpenWorldEditor
         }
 
         // Loading or creating the settings object
-        internal static OpenWorldProjectSettings GetOrCreateSettings()
+        public static OpenWorldProjectSettings GetOrCreateSettings()
         {
             var settings = AssetDatabase.LoadAssetAtPath<OpenWorldProjectSettings>(settingsPath);
             if (settings == null)
