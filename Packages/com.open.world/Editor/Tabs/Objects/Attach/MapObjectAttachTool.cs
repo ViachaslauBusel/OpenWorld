@@ -15,7 +15,7 @@ namespace OpenWorldEditor.MapObjectTab.Attach
 
         static MapObjectAttachTool()
         {
-            var settings = MapProjectSettings.GetOrCreateSettings();
+            var settings = OpenWorldProjectSettings.GetOrCreateSettings();
             _selectedLayerIndex = PlayerPrefs.GetInt("MapObjectAttachTool.SelectedLayerIndex", 0);
             _selectedLayerIndex = string.IsNullOrEmpty(settings.GetLayer(_selectedLayerIndex)) ? 0 : _selectedLayerIndex;
         }
@@ -45,10 +45,10 @@ namespace OpenWorldEditor.MapObjectTab.Attach
 
         private static void DrawLayerSelector()
         {
-            var settings = MapProjectSettings.GetOrCreateSettings();
+            var settings = OpenWorldProjectSettings.GetOrCreateSettings();
             var layerNamesList = new List<string>();
 
-            for (int i = 0; i < MapProjectSettings.MAX_LAYERS; i++)
+            for (int i = 0; i < OpenWorldProjectSettings.MAX_LAYERS; i++)
             {
                 string layerName = settings.GetLayer(i);
                 if (!string.IsNullOrEmpty(layerName))

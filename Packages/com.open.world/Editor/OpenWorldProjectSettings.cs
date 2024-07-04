@@ -9,11 +9,11 @@ using UnityEngine;
 
 namespace OpenWorldEditor
 {
-    public class MapProjectSettings : ScriptableObject
+    public class OpenWorldProjectSettings : ScriptableObject
     {
         public const int MAX_LAYERS = 32;
-        // Путь, по которому будут сохраняться настройки
-        private const string settingsPath = "Assets/Editor/MapleProjectSettings.asset";
+        // The path where the settings will be saved
+        private const string settingsPath = "Assets/Editor/OpenWorldProjectSettings.asset";
 
         [SerializeField, HideInInspector]
         private string[] _objectsLayers = new string[MAX_LAYERS];
@@ -35,39 +35,39 @@ namespace OpenWorldEditor
             return _objectsLayers[index];
         }
 
-        // Загрузка или создание объекта настроек
-        internal static MapProjectSettings GetOrCreateSettings()
+        // Loading or creating the settings object
+        internal static OpenWorldProjectSettings GetOrCreateSettings()
         {
-            var settings = AssetDatabase.LoadAssetAtPath<MapProjectSettings>(settingsPath);
+            var settings = AssetDatabase.LoadAssetAtPath<OpenWorldProjectSettings>(settingsPath);
             if (settings == null)
             {
                 if (!Directory.Exists(Path.GetDirectoryName(settingsPath)))
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(settingsPath));
                 }
-                settings = ScriptableObject.CreateInstance<MapProjectSettings>();
+                settings = ScriptableObject.CreateInstance<OpenWorldProjectSettings>();
                 AssetDatabase.CreateAsset(settings, settingsPath);
                 AssetDatabase.SaveAssets();
             }
             return settings;
         }
 
-        // Регистрация вкладки настроек
+        // Registering the settings tab
         [SettingsProvider]
         public static SettingsProvider CreateSettingsProvider()
         {
-            return new SettingsProvider("Project/MapSettings", SettingsScope.Project)
+            return new SettingsProvider("Project/OpenWorldSettings", SettingsScope.Project)
             {
-                label = "Map",
+                label = "Open World",
                 guiHandler = (searchContext) =>
                 {
-                    var settings = MapProjectSettings.GetOrCreateSettings();
+                    var settings = OpenWorldProjectSettings.GetOrCreateSettings();
 
                     EditorGUILayout.BeginVertical(GUI.skin.box);
                     GUILayout.Label("Object Layers", EditorStyles.boldLabel);
 
                     // Display each layer with a TextField for renaming
-                    for (int i = 0; i < MapProjectSettings.MAX_LAYERS; i++)
+                    for (int i = 0; i < OpenWorldProjectSettings.MAX_LAYERS; i++)
                     {
                         EditorGUILayout.BeginHorizontal();
                         GUILayout.Label($"Layer {i}", GUILayout.Width(150));
@@ -85,7 +85,7 @@ namespace OpenWorldEditor
                 },
 
                 // Сохранение настроек при изменении
-                keywords = new HashSet<string>(new[] { "Map", "Setting" })
+                keywords = new HashSet<string>(new[] { "OpenWorld", "Setting" })
             };
         }
     }

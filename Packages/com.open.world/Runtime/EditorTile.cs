@@ -13,6 +13,7 @@ namespace OpenWorld
     /// </summary>
     public class EditorTile : MonoBehaviour, ITile
     {
+        private Dictionary<MapObject, GameObject> _mapObjectToSceneObject = new Dictionary<MapObject, GameObject>();
         public Terrain Terrain { get; private set; }
         public TileLocation Location { get; private set; }
 
@@ -21,6 +22,8 @@ namespace OpenWorld
         /// <summary>Данные для загрузки тайла</summary>
         public Tile Data { get; private set; }
         public List<GameObject> gameObjects = new List<GameObject>();
+
+
         public void Load(TileLocation location, MapLoader mapLoader) 
         {
             Location = location;
@@ -87,12 +90,19 @@ namespace OpenWorld
                 obj.transform.rotation = mapObject.Rotation;
                 obj.transform.localScale = mapObject.Scale;
                 obj.transform.SetParent(transform);
-                obj.name = mapObject.GetHashCode().ToString();
-                obj.isStatic = true;
-                foreach (Transform _t in obj.GetComponentsInChildren<Transform>()) _t.gameObject.isStatic = true;
-                foreach (MeshRenderer _m in obj.GetComponentsInChildren<MeshRenderer>()) _m.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                //foreach (MeshRenderer _m in obj.GetComponentsInChildren<MeshRenderer>()) _m.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
                 gameObjects.Add(obj);
+                _mapObjectToSceneObject.Add(mapObject, obj);
             }
+        }
+
+        public GameObject GetSceneObjectByMapObject(MapObject mapObject)
+        {
+            if (_mapObjectToSceneObject.ContainsKey(mapObject))
+            {
+                return _mapObjectToSceneObject[mapObject];
+            }
+            return null;
         }
 
         public void Dispose()

@@ -8,10 +8,11 @@ namespace OpenWorldEditor.MapObjectTab.Display
 {
     internal static class MapObjectDisplayTool
     {
-        private static MapProjectSettings _settings;
+        private static GameObject _lastActiveObject;
+        private static OpenWorldProjectSettings _settings;
         private static Vector2 _scrollPosition = Vector2.zero;
         /// <summary>Selected object on the scene</summary>
-        private static GameObject _selectedObject = null;
+        private static EditorTile _selectedTile = null;
         /// <summary>List of objects attached to the selected tile and displayed in the UI</summary>
         private static List<DisplayObject> _displayedAttachedObjects = new List<DisplayObject>();
         /// <summary>Selected object from the list of objects attached to the tile</summary>
@@ -22,7 +23,17 @@ namespace OpenWorldEditor.MapObjectTab.Display
 
         static MapObjectDisplayTool()
         {
-            _settings = MapProjectSettings.GetOrCreateSettings();
+            _settings = OpenWorldProjectSettings.GetOrCreateSettings();
+        }
+
+        public static bool IsActiveObjectHasChanged()
+        {
+            if(_lastActiveObject != Selection.activeObject)
+            {
+                _lastActiveObject = Selection.activeObject as GameObject;
+                return true;
+            }
+            return false;
         }
 
         public static void Draw()
@@ -33,29 +44,34 @@ namespace OpenWorldEditor.MapObjectTab.Display
             if (selectedGameObject == null) return;
 
             // If a different object was selected on the scene
-            if (selectedGameObject != _selectedObject)
+            if (IsActiveObjectHasChanged())
             {
-                _displayedAttachedObjects.Clear();
-                _selectedObject = selectedGameObject;
-                _selectedTiles.Clear();
-                foreach (GameObject selectedObj in Selection.gameObjects)
-                {
-                    EditorTile tile = selectedObj.GetComponentInParent<EditorTile>();
-                    if (tile != null) _selectedTiles.Add(tile);
-                }
+                var editorTile = _lastActiveObject.GetComponentInParent<EditorTile>();
 
-                foreach (EditorTile tile in _selectedTiles)
+                if (editorTile != _selectedTile)
                 {
-                    foreach (MapObject mapObject in tile.Data.Objects)
+                    _selectedTile = editorTile;
+                    _displayedAttachedObjects.Clear();
+                    _selectedTiles.Clear();
+                    foreach (GameObject selectedObj in Selection.gameObjects)
                     {
-                        DisplayObject displayObject = DisplayObject.Create(
-                        tile.Data,
-                        mapObject,
-                        mapObject.Prefab?.editorAsset as GameObject,
-                        tile.transform.Find(mapObject.GetHashCode().ToString())?.gameObject,
-                        _settings.GetLayer(mapObject.Layer)
-                        );
-                        if (displayObject != null) _displayedAttachedObjects.Add(displayObject);
+                        EditorTile tile = selectedObj.GetComponentInParent<EditorTile>();
+                        if (tile != null) _selectedTiles.Add(tile);
+                    }
+
+                    foreach (EditorTile tile in _selectedTiles)
+                    {
+                        foreach (MapObject mapObject in tile.Data.Objects)
+                        {
+                            DisplayObject displayObject = DisplayObject.Create(
+                            tile.Data,
+                            mapObject,
+                            mapObject.Prefab?.editorAsset as GameObject,
+                            tile.GetSceneObjectByMapObject(mapObject),
+                            _settings.GetLayer(mapObject.Layer)
+                            );
+                            if (displayObject != null) _displayedAttachedObjects.Add(displayObject);
+                        }
                     }
                 }
             }

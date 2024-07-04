@@ -17,10 +17,10 @@ namespace OpenWorld.DATA
         private void OnEnable()
         {
             _mapSettings = target as MapSettings;
-            var settings = MapProjectSettings.GetOrCreateSettings();
+            var settings = OpenWorldProjectSettings.GetOrCreateSettings();
             var layerNamesList = new List<string>(); 
 
-            for (int i = 0; i < MapProjectSettings.MAX_LAYERS; i++)
+            for (int i = 0; i < OpenWorldProjectSettings.MAX_LAYERS; i++)
             {
                 string layerName = settings.GetLayer(i);
                 if (!string.IsNullOrEmpty(layerName))
