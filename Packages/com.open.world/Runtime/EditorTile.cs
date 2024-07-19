@@ -70,8 +70,10 @@ namespace OpenWorld
                     MeshFilter meshFilter = water.AddComponent<MeshFilter>();
                     MeshRenderer meshRenderer = water.AddComponent<MeshRenderer>();
                     meshFilter.mesh = Data.WaterTile;
-              //  meshFilter.mesh.name = "water";
-               // meshRenderer.material = TabSetting.WaterMaterial;
+                //  meshFilter.mesh.name = "water";
+                meshRenderer.material = _mapLoader.Settings.WaterMaterial;
+                meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                meshRenderer.receiveShadows = false;
                 water.transform.SetParent(transform);
                     water.transform.localPosition = new Vector3(0.0f, map.WaterLevel, 0.0f) + location.Position;
               //  water.AddComponent<WaterObject>();
