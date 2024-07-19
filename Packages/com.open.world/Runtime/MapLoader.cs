@@ -18,6 +18,7 @@ namespace OpenWorld
         private TileLocation[,] _tilesLocations;
         private Vector4 _border = new Vector4();
         private Transform _trackingObj;
+        private Transform _fackeTrackingObj;
 
         private bool _ready = false;
 
@@ -89,6 +90,17 @@ namespace OpenWorld
             _tilesLocations = null;
         }
 
+        puc v(Vector3 point)
+        {
+            if(_trackingObj == null)
+            {
+                _fackeTrackingObj ??= new GameObject("FakeTrackingObj").transform;
+                _trackingObj = _fackeTrackingObj;
+            }
+
+            _trackingObj.position = point;
+            LoadMap();
+        }
 
         public void LoadMap()
         {
@@ -236,6 +248,10 @@ namespace OpenWorld
         public void SetTarget(Transform target)
         {
             _trackingObj = target;
+            if(_fackeTrackingObj != null)
+            {
+                Destroy(_fackeTrackingObj.gameObject);
+            }
         }
 
         public void SetMap(GameMap map)
