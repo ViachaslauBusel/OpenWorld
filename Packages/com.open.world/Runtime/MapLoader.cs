@@ -90,7 +90,7 @@ namespace OpenWorld
             _tilesLocations = null;
         }
 
-        puc v(Vector3 point)
+        public void LoadMapInPoint(Vector3 point)
         {
             if(_trackingObj == null)
             {
