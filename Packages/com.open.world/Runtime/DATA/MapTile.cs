@@ -8,23 +8,23 @@ namespace OpenWorld.DATA
     /// <summary>
     /// Container for storing data of a single tile
     /// </summary>
-    public class Tile : ScriptableObject
+    public class MapTile : ScriptableObject
     {
         [SerializeField] TerrainData _terrainData;
         [SerializeField] Mesh _waterTile;
-        [SerializeField] List<MapObject> _objects;
+        [SerializeField] List<MapEntity> _objects;
 
         public TerrainData TerrainData => _terrainData;
         public Mesh WaterTile => _waterTile;
-        public IReadOnlyCollection<MapObject> Objects => _objects;
+        public IReadOnlyCollection<MapEntity> Objects => _objects;
 
 
-        public void AddObject(MapObject obj)
+        public void AddObject(MapEntity obj)
         {
             _objects.Add(obj);
         }
 
-        public void RemoveObject(MapObject obj)
+        public void RemoveObject(MapEntity obj)
         {
             _objects.Remove(obj);
         }

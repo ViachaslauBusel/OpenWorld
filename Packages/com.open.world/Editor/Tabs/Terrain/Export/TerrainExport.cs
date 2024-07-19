@@ -10,7 +10,7 @@ namespace OpenWorldEditor
 
     public class TerrainExport
     {
-        public static void Export(Map map)
+        public static void Export(GameMap map)
         {
            
             float totalProgress = 0; 
@@ -45,12 +45,12 @@ namespace OpenWorldEditor
             EditorUtility.ClearProgressBar();
         }
       
-        private static void Write(int xKM, int yKM, int xTR, int yTR, Map map, BinaryWriter stream_out)
+        private static void Write(int xKM, int yKM, int xTR, int yTR, GameMap map, BinaryWriter stream_out)
         {
 
 
             string path = map.GetPath(xKM, yKM, xTR, yTR);
-                    Tile mapElement = AssetDatabase.LoadAssetAtPath<Tile>(path);
+                    MapTile mapElement = AssetDatabase.LoadAssetAtPath<MapTile>(path);
            
             if (mapElement != null)
             {

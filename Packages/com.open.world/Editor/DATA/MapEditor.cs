@@ -12,7 +12,7 @@ using UnityEngine;
 namespace OpenWorld.DATA
 {
 
-    [CustomEditor(typeof(Map))]
+    [CustomEditor(typeof(GameMap))]
     public class MapEditor : Editor
     {
         private string _inputName = "";
@@ -21,7 +21,7 @@ namespace OpenWorld.DATA
 
         public override void OnInspectorGUI()
         {
-            Map map = target as Map;
+            GameMap map = target as GameMap;
 
             ShowError();
 

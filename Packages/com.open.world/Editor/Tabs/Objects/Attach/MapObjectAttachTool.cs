@@ -106,7 +106,7 @@ namespace OpenWorldEditor.MapObjectTab.Attach
                     int xTRBlock = (int)((attachObject.SceneObject.transform.position.x % 1000.0f) / TabSetting.Map.TileSize);
                     int yTRBlock = (int)((attachObject.SceneObject.transform.position.z % 1000.0f) / TabSetting.Map.TileSize);
 
-                    Tile mapTile = AssetDatabase.LoadAssetAtPath<Tile>(TabSetting.Map.GetPath(xKMBlock, yKMBlock, xTRBlock, yTRBlock));
+                    MapTile mapTile = AssetDatabase.LoadAssetAtPath<MapTile>(TabSetting.Map.GetPath(xKMBlock, yKMBlock, xTRBlock, yTRBlock));
 
                     if (mapTile == null)
                     {
@@ -114,7 +114,7 @@ namespace OpenWorldEditor.MapObjectTab.Attach
                         return;
                     }
 
-                    MapObject mapObject = new MapObject(
+                    MapEntity mapObject = new MapEntity(
                         _selectedLayerIndex,
                         attachObject.Prefab,
                         attachObject.SceneObject.transform.position,

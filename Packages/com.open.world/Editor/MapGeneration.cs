@@ -14,7 +14,7 @@ namespace OpenWorldEditor
         private static float maxProgress;
         private static float totalProgress;
 
-        public static void GenerationWorld(Map map, float defaultHeight)
+        public static void GenerationWorld(GameMap map, float defaultHeight)
         {
             string path = "Assets/MapData/" + map.MapName;
             Directory.CreateDirectory(path);
@@ -40,7 +40,7 @@ namespace OpenWorldEditor
             AssetDatabase.Refresh();
         }
 
-        private static void GenerationTerrain(int xKM, int yKM, Map map, float defaultHeight)
+        private static void GenerationTerrain(int xKM, int yKM, GameMap map, float defaultHeight)
         {
 
             float height = defaultHeight / map.MaximumWorldHeight;
@@ -57,7 +57,7 @@ namespace OpenWorldEditor
 
                    terrainData.size = new Vector3(map.TileSize, map.MaximumWorldHeight, map.TileSize);
 
-                    Tile mapElement = ScriptableObject.CreateInstance<Tile>();
+                    MapTile mapElement = ScriptableObject.CreateInstance<MapTile>();
 
                     // AssetDatabase.AddObjectToAsset(mapElement.terrainData, mapElement);
                     string path = map.GetPath(xKM, yKM, x, y);

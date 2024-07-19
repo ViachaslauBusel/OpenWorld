@@ -10,7 +10,7 @@ namespace OpenWorld.Tabs.Terrain.Export
 {
     public static class CollisionExport
     {
-        public static void Export(Map map)
+        public static void Export(GameMap map)
         {
 
             float totalProgress = 0;
@@ -70,15 +70,15 @@ namespace OpenWorld.Tabs.Terrain.Export
 
         }
 
-        private static void Write(int xKM, int yKM, int xTR, int yTR, Map map, BinaryWriter stream_out, in Dictionary<string, Mesh> meshColliders)
+        private static void Write(int xKM, int yKM, int xTR, int yTR, GameMap map, BinaryWriter stream_out, in Dictionary<string, Mesh> meshColliders)
         {
 
             string path = map.GetPath(xKM, yKM, xTR, yTR);
-            Tile tile = AssetDatabase.LoadAssetAtPath<Tile>(path);
+            MapTile tile = AssetDatabase.LoadAssetAtPath<MapTile>(path);
 
             if (tile != null)
             {
-                foreach(MapObject mapOBJ in tile.Objects)
+                foreach(MapEntity mapOBJ in tile.Objects)
                 {
                     GameObject prefabOBJ = mapOBJ.Prefab.editorAsset as GameObject;
                     Collider[] collidersArray = prefabOBJ.GetComponentsInChildren<Collider>();

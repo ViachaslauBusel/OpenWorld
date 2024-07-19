@@ -5,7 +5,7 @@ namespace OpenWorld
 {
     public struct TileLocation
     {
-        private Map _map;
+        private GameMap _map;
         // Map location in kilometers on the X-axis
         private int _xKilometers;
         // Map location in kilometers on the Y-axis
@@ -16,7 +16,7 @@ namespace OpenWorld
         private int _yTileReference;
 
 
-        public TileLocation(Map map)
+        public TileLocation(GameMap map)
         {
             _map = map;
             _xKilometers = 0;

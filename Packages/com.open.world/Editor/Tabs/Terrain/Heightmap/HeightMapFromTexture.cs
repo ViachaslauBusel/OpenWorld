@@ -7,7 +7,7 @@ namespace OpenWorldEditor.Tools.Terrain
 {
     public class HeightMapFromTexture
     {
-        public static void Apply(Map map, HeightMapSetting heightMapSetting)
+        public static void Apply(GameMap map, HeightMapSetting heightMapSetting)
         {
             int heightMapPoint =  map.MapSizeKilometers * map.TilesPerKilometer * (map.HeightmapResolution - 1) + 1;
             Color[] mapColors = heightMapSetting.texture.GetPixels(0, 0, heightMapSetting.texture.width, heightMapSetting.texture.height);
@@ -59,8 +59,8 @@ namespace OpenWorldEditor.Tools.Terrain
                             EditorUtility.DisplayProgressBar("OpenWorld", "HeightMap apply", ((yKM * map.MapSizeKilometers + xKM) + (y * map.TilesPerKilometer + x)) / maxProgress);
                             string path = map.GetPath(xKM, yKM, x, y) ;
 
-                            Tile resource = AssetDatabase.LoadAssetAtPath<Tile>(path);
-                            TerrainData terrainData = (resource as Tile).TerrainData;
+                            MapTile resource = AssetDatabase.LoadAssetAtPath<MapTile>(path);
+                            TerrainData terrainData = (resource as MapTile).TerrainData;
 
                             int xStart = (xKM * map.TilesPerKilometer + x) * (map.HeightmapResolution - 1);
                             int yStart = (yKM * map.TilesPerKilometer + y) * (map.HeightmapResolution - 1);

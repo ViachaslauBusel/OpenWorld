@@ -8,11 +8,11 @@ namespace OpenWorldEditor
 {
     public static class TabSetting
     {
-        private static SettingReferenceSaver<Map> _mapSaver = new SettingReferenceSaver<Map>("mapASFVS");
+        private static SettingReferenceSaver<GameMap> _mapSaver = new SettingReferenceSaver<GameMap>("mapASFVS");
         private static SettingReferenceSaver<MapSettings> _mapSettingsSaver = new SettingReferenceSaver<MapSettings>("mapSettingsDGVVC");
         private static Vector2 _scrollPosition = Vector2.zero;
 
-        public static Map Map => _mapSaver.Object;
+        public static GameMap Map => _mapSaver.Object;
         public static MapSettings MapSettings => _mapSettingsSaver.Object;
 
         public static void Draw()

@@ -11,7 +11,7 @@ namespace OpenWorld.DATA
     /// Data for saving a single object on the map
     /// </summary>
     [System.Serializable]
-    public class MapObject
+    public class MapEntity
     {
         [SerializeField] int _layer;
         [SerializeField] Vector3 _position;
@@ -26,7 +26,7 @@ namespace OpenWorld.DATA
         public AssetReference Prefab => _prefab;
 
 #if UNITY_EDITOR
-        public MapObject(int layer, GameObject prefab, Vector3 position, Quaternion rotation, Vector3 scale)
+        public MapEntity(int layer, GameObject prefab, Vector3 position, Quaternion rotation, Vector3 scale)
         {
             AssetDatabase.TryGetGUIDAndLocalFileIdentifier(prefab, out string guid, out long _);
 

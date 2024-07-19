@@ -13,14 +13,14 @@ namespace OpenWorld
     /// </summary>
     public class EditorTile : MonoBehaviour, ITile
     {
-        private Dictionary<MapObject, GameObject> _mapObjectToSceneObject = new Dictionary<MapObject, GameObject>();
+        private Dictionary<MapEntity, GameObject> _mapObjectToSceneObject = new Dictionary<MapEntity, GameObject>();
         public Terrain Terrain { get; private set; }
         public TileLocation Location { get; private set; }
 
         private MapLoader _mapLoader;
 
         /// <summary>Данные для загрузки тайла</summary>
-        public Tile Data { get; private set; }
+        public MapTile Data { get; private set; }
         public List<GameObject> gameObjects = new List<GameObject>();
 
 
@@ -30,11 +30,11 @@ namespace OpenWorld
             _mapLoader = mapLoader;
             Load(location, mapLoader.Map);
         }
-        public void Load(TileLocation location, Map map)
+        public void Load(TileLocation location, GameMap map)
         {
 
 
-            Data = AssetDatabase.LoadAssetAtPath<Tile>(location.Path);
+            Data = AssetDatabase.LoadAssetAtPath<MapTile>(location.Path);
 
 
             TerrainData terrainData = Data.TerrainData;
@@ -77,7 +77,7 @@ namespace OpenWorld
               //  water.AddComponent<WaterObject>();
             }
 
-            foreach (MapObject mapObject in Data.Objects)
+            foreach (MapEntity mapObject in Data.Objects)
             {
                 if (_mapLoader.Settings.ObjectLayerMask.ContainsLayer(mapObject.Layer) == false) { continue; }
 
@@ -96,7 +96,7 @@ namespace OpenWorld
             }
         }
 
-        public GameObject GetSceneObjectByMapObject(MapObject mapObject)
+        public GameObject GetSceneObjectByMapObject(MapEntity mapObject)
         {
             if (_mapObjectToSceneObject.ContainsKey(mapObject))
             {

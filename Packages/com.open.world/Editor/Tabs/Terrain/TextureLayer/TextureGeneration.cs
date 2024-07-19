@@ -7,9 +7,9 @@ namespace OpenWorldEditor.Tools.Terrain
 {
     public class TextureGeneration
     {
-        public static void Generation(float height, TerrainLayer terrainLayer, Map editMap)
+        public static void Generation(float height, TerrainLayer terrainLayer, GameMap editMap)
         {
-            Map map = editMap;
+            GameMap map = editMap;
 
             float maxProgress = map.MapSizeKilometers * map.MapSizeKilometers;
             float totalProgress = 0.0f;
@@ -27,7 +27,7 @@ namespace OpenWorldEditor.Tools.Terrain
                         for (int x = 0; x < map.TilesPerKilometer; x++)
                         {
                             string path = map.GetPath(xKM, yKM, x, y);
-                            Tile mapElement = AssetDatabase.LoadAssetAtPath<Tile>(path);
+                            MapTile mapElement = AssetDatabase.LoadAssetAtPath<MapTile>(path);
 
                             if (mapElement.TerrainData.terrainLayers == null || mapElement.TerrainData.terrainLayers.Length == 0)
                             {

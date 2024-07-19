@@ -10,7 +10,7 @@ namespace OpenWorldEditor
 {
     public class TabExport
     {
-        private static Map map;
+        private static GameMap map;
         public static void Draw()
         {
             if (GUILayout.Button("Bake Light"))
@@ -53,7 +53,7 @@ namespace OpenWorldEditor
                
 
                 if (TabSetting.Map == null) return;
-                Map map = TabSetting.Map;
+                GameMap map = TabSetting.Map;
                 string mapName = map.MapName.ToLower();
 
                 if (!Directory.Exists("Export/AssetBundles/Win/" +mapName))
@@ -77,7 +77,7 @@ namespace OpenWorldEditor
 
                                 EditorUtility.DisplayProgressBar("OpenWorld", "attach objects", ((yKM * map.MapSizeKilometers + xKM) + (yTR * map.TilesPerKilometer + xTR)) / maxProgress);
 
-                                Tile mapElement = AssetDatabase.LoadAssetAtPath<Tile>(map.GetPath(xKM, yKM, xTR, yTR));
+                                MapTile mapElement = AssetDatabase.LoadAssetAtPath<MapTile>(map.GetPath(xKM, yKM, xTR, yTR));
         
                                 //foreach(MapObject obj in mapElement.Objects)
                                 //{
@@ -151,7 +151,7 @@ namespace OpenWorldEditor
                 for (int y = 0; y < map.TilesPerKilometer; y++)
                 {
                     string path = folder + "/TRBlock_" + x + '_' + y;
-                    Tile mapElement = Resources.Load<Tile>(path);
+                    MapTile mapElement = Resources.Load<MapTile>(path);
 
                     if (mapElement != null)
                     {

@@ -8,9 +8,9 @@ namespace OpenWorldEditor.Tools.Terrain
 {
     public class WaterGeneration
     {
-        public static void Generation(float waterLevel, Map editMap)
+        public static void Generation(float waterLevel, GameMap editMap)
         {
-            Map map =   editMap;
+            GameMap map =   editMap;
             map.WaterLevel = waterLevel;
             AssetDatabase.SaveAssets();
             EditorUtility.SetDirty(map);
@@ -31,7 +31,7 @@ namespace OpenWorldEditor.Tools.Terrain
                         {
                             string path = map.GetPath(xKM, yKM, x, y);
 
-                            Tile mapElement = AssetDatabase.LoadAssetAtPath<Tile>(path);
+                            MapTile mapElement = AssetDatabase.LoadAssetAtPath<MapTile>(path);
 
                             if (mapElement.WaterTile != null)
                             {

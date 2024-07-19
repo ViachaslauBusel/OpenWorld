@@ -12,7 +12,7 @@ namespace OpenWorld
 {
     public class MapLoader : MonoBehaviour
     {
-        [SerializeField] Map _map;
+        [SerializeField] GameMap _map;
         [SerializeField] MapSettings _settings;
         private ITile[,] _tiles;
         private TileLocation[,] _tilesLocations;
@@ -22,7 +22,7 @@ namespace OpenWorld
         private bool _ready = false;
 
         public bool Ready => _ready;
-        public Map Map => _map;
+        public GameMap Map => _map;
         public MapSettings Settings => _settings;
         public Transform TrackingObject => _trackingObj;
 
@@ -238,7 +238,7 @@ namespace OpenWorld
             _trackingObj = target;
         }
 
-        public void SetMap(Map map)
+        public void SetMap(GameMap map)
         {
             _map = map;
         }

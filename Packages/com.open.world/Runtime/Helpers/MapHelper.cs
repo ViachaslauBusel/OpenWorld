@@ -12,7 +12,7 @@ namespace OpenWorld.Helpers
 {
     public static class MapHelper
     {
-        public static TileLocation CalculateLocation(this Map map, Vector3 startPosition)
+        public static TileLocation CalculateLocation(this GameMap map, Vector3 startPosition)
         {
             TileLocation startLocation = new TileLocation(map)
             {
@@ -24,14 +24,14 @@ namespace OpenWorld.Helpers
             return startLocation;
         }
 
-        public static Vector3 ClampPosition(this Map map, Vector3 position)
+        public static Vector3 ClampPosition(this GameMap map, Vector3 position)
         {
             float x = Mathf.Clamp(position.x, 0f, map.MapSizeKilometers * map.TilesPerKilometer * map.TileSize);
             float z = Mathf.Clamp(position.z, 0, map.MapSizeKilometers * map.TilesPerKilometer * map.TileSize);
             return new Vector3(x, position.y, z);
         }
 
-        public static bool IsLocationValid(this Map map, TileLocation location)
+        public static bool IsLocationValid(this GameMap map, TileLocation location)
         {
             return location.Xkm >= 0 && location.Ykm >= 0 && location.Xkm < map.MapSizeKilometers && location.Ykm < map.MapSizeKilometers;
         }
@@ -42,11 +42,11 @@ namespace OpenWorld.Helpers
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public static Vector3 WorldToMapPoint(this Map map, Vector3 position)
+        public static Vector3 WorldToMapPoint(this GameMap map, Vector3 position)
         {
             position -= map.WorldStartPoint;
-            position.x = Mathf.Clamp(position.x, 0, map.MapSizeKilometers * Map.SIZE_KMBLOCK);
-            position.z = Mathf.Clamp(position.z, 0, map.MapSizeKilometers * Map.SIZE_KMBLOCK);
+            position.x = Mathf.Clamp(position.x, 0, map.MapSizeKilometers * GameMap.SIZE_KMBLOCK);
+            position.z = Mathf.Clamp(position.z, 0, map.MapSizeKilometers * GameMap.SIZE_KMBLOCK);
             return position;
         }
 
@@ -56,7 +56,7 @@ namespace OpenWorld.Helpers
         /// </summary>
         /// <param name="map">The map to enumerate tile locations for.</param>
         /// <returns>An enumerable of all possible tile locations within the map.</returns>
-        public static IEnumerable<TileLocation> EnumerateAllTileLocations(this Map map)
+        public static IEnumerable<TileLocation> EnumerateAllTileLocations(this GameMap map)
         {
             for (int kilometerY = 0; kilometerY < map.MapSizeKilometers; kilometerY++)
             {
@@ -79,23 +79,23 @@ namespace OpenWorld.Helpers
             }
         }
 
-        public static IEnumerable<Tile> EnumerateAllTiles(this Map map)
+        public static IEnumerable<MapTile> EnumerateAllTiles(this GameMap map)
         {
 #if UNITY_EDITOR
             foreach (TileLocation location in map.EnumerateAllTileLocations())
             {
-                yield return AssetDatabase.LoadAssetAtPath<Tile>(location.Path);
+                yield return AssetDatabase.LoadAssetAtPath<MapTile>(location.Path);
             }
 #else
             throw new NotImplementedException();
 #endif
         }
 
-        public static IEnumerable<MapObject> EnumerateAllMapObjects(this Map map)
+        public static IEnumerable<MapEntity> EnumerateAllMapObjects(this GameMap map)
         {
-            foreach (Tile tile in map.EnumerateAllTiles())
+            foreach (MapTile tile in map.EnumerateAllTiles())
             {
-                foreach (MapObject mapObject in tile.Objects)
+                foreach (MapEntity mapObject in tile.Objects)
                 {
                     yield return mapObject;
                 }

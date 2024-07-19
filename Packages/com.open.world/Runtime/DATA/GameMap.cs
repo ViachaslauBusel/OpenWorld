@@ -9,7 +9,7 @@ using UnityEngine;
 namespace OpenWorld.DATA
 {
     [CreateAssetMenu(fileName = "Map", menuName = "OpenWorld/Map Data", order = 50), System.Serializable]
-    public class Map : ScriptableObject
+    public class GameMap : ScriptableObject
     {
         public const float SIZE_KMBLOCK = 1000.0f;
         private static readonly int[] RESOLUTIONS = { 16, 32, 64, 128, 256, 512, 1024 };
@@ -90,7 +90,7 @@ namespace OpenWorld.DATA
 
         public void ApplyMapSetting()
         {
-            foreach (Tile tile in this)
+            foreach (MapTile tile in this)
             {
                 if (tile.TerrainData.alphamapResolution != AlphamapResolution)
                 { tile.TerrainData.alphamapResolution = AlphamapResolution; }
@@ -132,7 +132,7 @@ namespace OpenWorld.DATA
                             EditorUtility.DisplayProgressBar("OpenWorld", "processing", ((yKM * MapSizeKilometers + xKM) + (y * TilesPerKilometer + x)) / maxProgress);
                             string path = GetPath(xKM, yKM, x, y);
 
-                            Tile tile = AssetDatabase.LoadAssetAtPath<Tile>(path);
+                            MapTile tile = AssetDatabase.LoadAssetAtPath<MapTile>(path);
 
                             yield return tile;
                         }

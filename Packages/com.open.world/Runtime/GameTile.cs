@@ -13,7 +13,7 @@ namespace OpenWorld
 {
     public class GameTile : MonoBehaviour, ITile
     {
-        public Tile Tile { get; private set; }
+        public MapTile Tile { get; private set; }
         private Coroutine coroutineLoad = null;
         private List<GameObject> objects = new List<GameObject>();
         private MapLoader mapLoader;
@@ -26,7 +26,7 @@ namespace OpenWorld
         internal IEnumerator ELoad(TileLocation location)
         {
             // Load the Tile asset asynchronously
-            var loadHandle = Addressables.LoadAssetAsync<Tile>(location.Path);
+            var loadHandle = Addressables.LoadAssetAsync<MapTile>(location.Path);
 
             yield return loadHandle;
 
@@ -100,7 +100,7 @@ namespace OpenWorld
                 });
             }
 
-            foreach (MapObject mapObject in Tile.Objects)
+            foreach (MapEntity mapObject in Tile.Objects)
             {
                 if(mapLoader.Settings.ObjectLayerMask.ContainsLayer(mapObject.Layer) == false) { continue; }
 
