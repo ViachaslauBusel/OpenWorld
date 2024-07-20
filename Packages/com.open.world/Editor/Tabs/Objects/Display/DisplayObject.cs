@@ -9,7 +9,7 @@ namespace OpenWorldEditor.MapObjectTab.Display
         /// <summary>Data with information about the tile on which the object is located</summary>
         public MapTile TileData { get; private set; }
         /// <summary>Data with information about the object</summary>
-        public MapEntity ObjectData { get; private set; }
+        public MapEntity EntityData { get; private set; }
         /// <summary>Object's prefab</summary>
         public GameObject Prefab { get; private set; }
         /// <summary>Loaded object on the scene</summary>
@@ -19,7 +19,7 @@ namespace OpenWorldEditor.MapObjectTab.Display
         private DisplayObject(MapTile tileData, MapEntity objectData, GameObject prefab, GameObject sceneObject, string layerName)
         {
             TileData = tileData;
-            ObjectData = objectData;
+            EntityData = objectData;
             Prefab = prefab;
             ObjectOnScene = sceneObject;
             LayerName = layerName;
@@ -29,11 +29,18 @@ namespace OpenWorldEditor.MapObjectTab.Display
         /// <summary>Detach the object from the map</summary>
         public void Detach()
         {
-            // Detach the object from the loaded map
-            ObjectOnScene.transform.SetParent(null);
+            GameObject.DestroyImmediate(ObjectOnScene);
+
+            //Create object with link to prefab
+            GameObject newObject = PrefabUtility.InstantiatePrefab(EntityData.Prefab.editorAsset) as GameObject;
+
+            // Set the object's position, rotation, and scale
+            newObject.transform.position = EntityData.Position;
+            newObject.transform.rotation = EntityData.Rotation;
+            newObject.transform.localScale = EntityData.Scale;
 
             // Remove the object from the prefab
-            TileData.RemoveObject(ObjectData);
+            TileData.RemoveEntity(EntityData);
             EditorUtility.SetDirty(TileData);
         }
 
@@ -43,7 +50,7 @@ namespace OpenWorldEditor.MapObjectTab.Display
             GameObject.DestroyImmediate(ObjectOnScene);
 
             // Remove the object from the prefab
-            TileData.RemoveObject(ObjectData);
+            TileData.RemoveEntity(EntityData);
             EditorUtility.SetDirty(TileData);
         }
 

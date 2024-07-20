@@ -95,7 +95,7 @@ namespace OpenWorld.Helpers
         {
             foreach (MapTile tile in map.EnumerateAllTiles())
             {
-                foreach (MapEntity mapObject in tile.Objects)
+                foreach (MapEntity mapObject in tile.Entities)
                 {
                     yield return mapObject;
                 }

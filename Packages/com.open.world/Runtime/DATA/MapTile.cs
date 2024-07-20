@@ -16,15 +16,15 @@ namespace OpenWorld.DATA
 
         public TerrainData TerrainData => _terrainData;
         public Mesh WaterTile => _waterTile;
-        public IReadOnlyCollection<MapEntity> Objects => _objects;
+        public IReadOnlyCollection<MapEntity> Entities => _objects;
 
 
-        public void AddObject(MapEntity obj)
+        public void AddEntity(MapEntity obj)
         {
             _objects.Add(obj);
         }
 
-        public void RemoveObject(MapEntity obj)
+        public void RemoveEntity(MapEntity obj)
         {
             _objects.Remove(obj);
         }

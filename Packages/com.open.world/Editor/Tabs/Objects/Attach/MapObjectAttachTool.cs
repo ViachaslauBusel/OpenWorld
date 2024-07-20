@@ -1,4 +1,6 @@
-﻿using OpenWorld.DATA;
+﻿using OpenWorld;
+using OpenWorld.DATA;
+using OpenWorldEditor.Tabs.Setting;
 using OpenWorldEditor.Tools.EditorScene;
 using System.Collections.Generic;
 using System.Linq;
@@ -113,8 +115,17 @@ namespace OpenWorldEditor.MapObjectTab.Attach
                         Debug.LogError("Failed to load tile");
                         return;
                     }
+                    int id = 0;
+
+                    // Generate ID for the object if it has a MapEntityIdentifier component
+                    if (attachObject.Prefab.GetComponent<MapEntityIdentifier>() != null)
+                    {
+                        id = TabSetting.Map.GenerateID();
+                        Debug.Log($"Generated ID: {id}");
+                    }
 
                     MapEntity mapObject = new MapEntity(
+                        id,
                         _selectedLayerIndex,
                         attachObject.Prefab,
                         attachObject.SceneObject.transform.position,
@@ -122,7 +133,7 @@ namespace OpenWorldEditor.MapObjectTab.Attach
                         attachObject.SceneObject.transform.localScale
                     );
 
-                    mapTile.AddObject(mapObject);
+                    mapTile.AddEntity(mapObject);
                     EditorUtility.SetDirty(mapTile);
 
                     GameObject.DestroyImmediate(attachObject.SceneObject);

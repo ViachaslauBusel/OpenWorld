@@ -61,7 +61,7 @@ namespace OpenWorldEditor.MapObjectTab.Display
 
                     foreach (EditorTile tile in _selectedTiles)
                     {
-                        foreach (MapEntity mapObject in tile.Data.Objects)
+                        foreach (MapEntity mapObject in tile.Data.Entities)
                         {
                             DisplayObject displayObject = DisplayObject.Create(
                             tile.Data,

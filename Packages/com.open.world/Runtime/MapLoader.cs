@@ -14,7 +14,7 @@ namespace OpenWorld
     {
         [SerializeField] GameMap _map;
         [SerializeField] MapSettings _settings;
-        private ITile[,] _tiles;
+        private BaseTile[,] _tiles;
         private TileLocation[,] _tilesLocations;
         private Vector4 _border = new Vector4();
         private Transform _trackingObj;
@@ -83,7 +83,7 @@ namespace OpenWorld
             {
                 for (int y = 0; y < _tiles.GetLength(1); y++)
                 {
-                       _tiles[x, y]?.Dispose();
+                    _tiles[x, y]?.Destroy();
                 }
             }
             _tiles = null;
@@ -107,13 +107,12 @@ namespace OpenWorld
             if (Ready) { Debug.LogError("the map is already loaded"); return; }
             if (_map == null || _map.IsValid() == false) { Debug.LogError("Map is not valid"); return; }
 
-
             SetupMap();
         }
 
         private void SetupMap()
         {
-            _tiles = new ITile[_settings.AreaVisible * 2 + 1, _settings.AreaVisible * 2 + 1];
+            _tiles = new BaseTile[_settings.AreaVisible * 2 + 1, _settings.AreaVisible * 2 + 1];
             _tilesLocations = new TileLocation[_settings.AreaVisible * 2 + 1, _settings.AreaVisible * 2 + 1];
 
             CalculateBorder();
@@ -168,7 +167,7 @@ namespace OpenWorld
                     {
                         _tilesLocations[x, y].Xtr--;
                         //Dispose tile if it is the last one
-                        if (x == _tiles.GetLength(0) - 1) _tiles[x, y]?.Dispose();
+                        if (x == _tiles.GetLength(0) - 1) _tiles[x, y]?.Destroy();
                         //Shift tiles
                         if (x != 0) _tiles[x, y] = _tiles[x - 1, y];
                         //Create new tile
@@ -187,7 +186,7 @@ namespace OpenWorld
                     for (int y = 0; y < _tiles.GetLength(1); y++)
                     {
                         _tilesLocations[x, y].Xtr++;
-                        if (x == 0) _tiles[x, y]?.Dispose();
+                        if (x == 0) _tiles[x, y]?.Destroy();
                         if (x < _tiles.GetLength(0) - 1) _tiles[x, y] = _tiles[x + 1, y];
                         else CreateTerrain(x, y, _tilesLocations[x, y]);
                     }
@@ -204,7 +203,7 @@ namespace OpenWorld
                     for (int x = 0; x < _tiles.GetLength(0); x++)
                     {
                         _tilesLocations[x, y].Ytr--;
-                        if (y == _tiles.GetLength(1) - 1) _tiles[x, y]?.Dispose();
+                        if (y == _tiles.GetLength(1) - 1) _tiles[x, y]?.Destroy();
                         if (y != 0) _tiles[x, y] = _tiles[x, y-1];
                         else CreateTerrain(x, y, _tilesLocations[x, y]);
                     }
@@ -221,7 +220,7 @@ namespace OpenWorld
                     for (int x = 0; x < _tiles.GetLength(0); x++)
                     {
                         _tilesLocations[x, y].Ytr++;
-                        if (y == 0) _tiles[x, y]?.Dispose();
+                        if (y == 0) _tiles[x, y]?.Destroy();
                         if (y < _tiles.GetLength(1) - 1) _tiles[x, y] = _tiles[x , y+1];
                         else CreateTerrain(x, y, _tilesLocations[x, y]);
                     }
@@ -242,7 +241,7 @@ namespace OpenWorld
 
             if (_map.IsLocationValid(location) == false) { obj.name = "OutsideTile"; return; }
             
-            _tiles[x, y].Load(location, this);
+            _tiles[x, y].Load(location, _settings);
         }
 
         public void SetTarget(Transform target)

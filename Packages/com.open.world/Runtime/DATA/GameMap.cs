@@ -29,6 +29,7 @@ namespace OpenWorld.DATA
         [SerializeField] int _alphamapResolutionIndex = 3;
         [SerializeField] int _baseMapResolutionIndex = 3;
         [SerializeField] float _waterLevel = 0;
+        [SerializeField] int _idGenerator = 1;
 
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //-----------------------------------------------------------------------PUBLIC---------------------------------------------------------------------------------------------------------------
@@ -53,6 +54,14 @@ namespace OpenWorld.DATA
         public string GetPath(int xKM, int yKM, int xTR, int yTR) => "Assets/MapData/" + _mapName + "/KMBlock_" + xKM + '_' + yKM + "/Tile_" + xTR + '_' + yTR + ".asset";
         public string GetPathToLight(int xKM, int yKM, int xTR, int yTR) => "Assets/MapData/" + _mapName + "(Light)/KMBlock_" + xKM + '_' + yKM + "/TRBlock_" + xTR + '_' + yTR + ".asset";
 
+
+        public int GenerateID()
+        {
+            int id = _idGenerator++;
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+            return id;
+        }
 
         public bool IsValid()
         {

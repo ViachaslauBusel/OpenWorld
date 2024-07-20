@@ -25,6 +25,8 @@ namespace OpenWorld
             _yTileReference = 0;
         }
 
+        public GameMap Map => _map;
+
         public int Xtr
         {
             get => _xTileReference;

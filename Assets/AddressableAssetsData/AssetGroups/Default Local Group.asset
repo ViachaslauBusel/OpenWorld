@@ -22,6 +22,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 240790a9542027c4da3a06fde7c66aad
+    m_Address: Assets/Prefabs/TestEntityWithID.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 303cb9c85f8b6e349ae4e0de088df88d, type: 2}
   m_SchemaSet:
