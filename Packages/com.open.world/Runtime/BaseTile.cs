@@ -53,6 +53,18 @@ namespace OpenWorld
             {
                 if (settings.ObjectLayerMask.ContainsLayer(mapEntity.Layer) == false) { continue; }
 
+                if(mapEntity.Prefab == null)
+                {
+                    Debug.LogError($"Prefab is missing on {mapEntity.ID}");
+                    continue;
+                }
+
+                if (mapEntity.Prefab.IsValid() == false)
+                {
+                    Debug.LogError($"Prefab is not valid on {mapEntity.ID}:{mapEntity.Prefab.AssetGUID}");
+                    continue;
+                }
+
                 AsyncOperationHandle<GameObject> loadEntityHandler = Addressables.LoadAssetAsync<GameObject>(mapEntity.Prefab);
                 loadEntityHandler.Completed += (h) =>
                 {
