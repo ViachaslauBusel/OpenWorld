@@ -54,7 +54,13 @@ namespace OpenWorld.DATA
         public string GetPath(int xKM, int yKM, int xTR, int yTR) => "Assets/MapData/" + _mapName + "/KMBlock_" + xKM + '_' + yKM + "/Tile_" + xTR + '_' + yTR + ".asset";
         public string GetPathToLight(int xKM, int yKM, int xTR, int yTR) => "Assets/MapData/" + _mapName + "(Light)/KMBlock_" + xKM + '_' + yKM + "/TRBlock_" + xTR + '_' + yTR + ".asset";
 
+        public bool IsValid()
+        {
+            return !string.IsNullOrEmpty(_mapName) && _mapSizeKm > 0 && _tilesPerKm > 0 && _tileSize > 0;
+        }
+        //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+#if UNITY_EDITOR
         public int GenerateID()
         {
             int id = _idGenerator++;
@@ -63,13 +69,6 @@ namespace OpenWorld.DATA
             return id;
         }
 
-        public bool IsValid()
-        {
-            return !string.IsNullOrEmpty(_mapName) && _mapSizeKm > 0 && _tilesPerKm > 0 && _tileSize > 0;
-        }
-        //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-#if UNITY_EDITOR
         public void DisplayMapCreationGUI(ref string inputName, ref float inputHeight)
         {
             EditorGUILayout.LabelField("Map not created");
