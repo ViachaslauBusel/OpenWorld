@@ -2,6 +2,7 @@
 using OpenWorld.Helpers;
 using OpenWorld.Loader;
 using System.Collections.Generic;
+using System.Resources;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -65,24 +66,32 @@ namespace OpenWorld
                     continue;
                 }
 
-                AsyncOperationHandle<GameObject> loadEntityHandler = Addressables.LoadAssetAsync<GameObject>(mapEntity.Prefab);
-                loadEntityHandler.Completed += (h) =>
+
+                try
                 {
-                    if (_isDestroyed || _isAssetLoaded == false)
+                    AsyncOperationHandle<GameObject> loadEntityHandler = Addressables.LoadAssetAsync<GameObject>(mapEntity.Prefab);
+                    loadEntityHandler.Completed += (h) =>
                     {
-                        Addressables.Release(loadEntityHandler);
-                        return;
-                    }
-                    _entityAssetHandlers.Add(loadEntityHandler);
+                        if (_isDestroyed || _isAssetLoaded == false)
+                        {
+                            Addressables.Release(loadEntityHandler);
+                            return;
+                        }
+                        _entityAssetHandlers.Add(loadEntityHandler);
 
-                    TaskManager.Execute(() =>
-                    {
-                        if (_isDestroyed) return;
+                        TaskManager.Execute(() =>
+                        {
+                            if (_isDestroyed) return;
 
-                        GameObject obj = SetupEntity(h.Result, mapEntity);
-                        if(obj != null) OnEntityInstantiated(obj, mapEntity);
-                    });
-                };
+                            GameObject obj = SetupEntity(h.Result, mapEntity);
+                            if (obj != null) OnEntityInstantiated(obj, mapEntity);
+                        });
+                    };
+                }
+                catch (InvalidKeyException ex)
+                {
+                    Debug.LogError($"InvalidKeyException for {mapEntity.ID}:{mapEntity.Prefab.AssetGUID}. Message: {ex.Message}");
+                }
             }
         }
 
@@ -133,7 +142,7 @@ namespace OpenWorld
             //terrain_obj.layer = LayerMask.NameToLayer("Terrain");
 
             var terrain = terrain_obj.GetComponent<Terrain>();
-            terrain.drawTreesAndFoliage = false;
+            terrain.drawTreesAndFoliage = true;
             terrain.basemapDistance = 0;
             terrain.detailObjectDistance = 0;
             //SETTING TERRAIN <<<
