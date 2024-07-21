@@ -59,11 +59,11 @@ namespace OpenWorld
                     continue;
                 }
 
-                //if (mapEntity.Prefab.IsValid() == false)
-                //{
-                //    Debug.LogError($"Prefab is not valid on {mapEntity.ID}:{mapEntity.Prefab.AssetGUID}");
-                //    continue;
-                //}
+                if (mapEntity.Prefab.RuntimeKeyIsValid() == false)
+                {
+                    Debug.LogError($"Prefab is not valid on {mapEntity.ID}:{mapEntity.Prefab.AssetGUID}");
+                    continue;
+                }
 
                 AsyncOperationHandle<GameObject> loadEntityHandler = Addressables.LoadAssetAsync<GameObject>(mapEntity.Prefab);
                 loadEntityHandler.Completed += (h) =>
@@ -102,7 +102,6 @@ namespace OpenWorld
 
             if(mapEntity.ID != 0)
             {
-                Debug.Log($"MapEntityIdentifier is missing on {mapEntity.ID}");
                 obj.GetComponent<MapEntityIdentifier>()?.Initialize(mapEntity.ID);
             }
 
