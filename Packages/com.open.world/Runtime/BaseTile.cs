@@ -1,6 +1,7 @@
 ﻿using OpenWorld.DATA;
 using OpenWorld.Helpers;
 using OpenWorld.Loader;
+using System;
 using System.Collections.Generic;
 using System.Resources;
 using UnityEngine;
@@ -60,12 +61,11 @@ namespace OpenWorld
                     continue;
                 }
 
-                if (mapEntity.Prefab.RuntimeKeyIsValid() == false)
-                {
-                    Debug.LogError($"Prefab is not valid on {mapEntity.ID}:{mapEntity.Prefab.AssetGUID}");
-                    continue;
-                }
-
+                //if (mapEntity.Prefab.RuntimeKeyIsValid() == false)
+                //{
+                //    Debug.LogError($"Prefab is not valid on {mapEntity.ID}:{mapEntity.Prefab.AssetGUID}");
+                //    continue;
+                //}
 
                 try
                 {
@@ -88,7 +88,7 @@ namespace OpenWorld
                         });
                     };
                 }
-                catch (InvalidKeyException ex)
+                catch (Exception ex)
                 {
                     Debug.LogError($"InvalidKeyException for {mapEntity.ID}:{mapEntity.Prefab.AssetGUID}. Message: {ex.Message}");
                 }
