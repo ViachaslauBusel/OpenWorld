@@ -59,11 +59,11 @@ namespace OpenWorld
                     continue;
                 }
 
-                if (mapEntity.Prefab.IsValid() == false)
-                {
-                    Debug.LogError($"Prefab is not valid on {mapEntity.ID}:{mapEntity.Prefab.AssetGUID}");
-                    continue;
-                }
+                //if (mapEntity.Prefab.IsValid() == false)
+                //{
+                //    Debug.LogError($"Prefab is not valid on {mapEntity.ID}:{mapEntity.Prefab.AssetGUID}");
+                //    continue;
+                //}
 
                 AsyncOperationHandle<GameObject> loadEntityHandler = Addressables.LoadAssetAsync<GameObject>(mapEntity.Prefab);
                 loadEntityHandler.Completed += (h) =>
