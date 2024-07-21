@@ -1,9 +1,7 @@
 ﻿using OpenWorld.DATA;
 using OpenWorld.Helpers;
 using OpenWorld.Loader;
-using System;
 using System.Collections.Generic;
-using System.Resources;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -50,48 +48,34 @@ namespace OpenWorld
                 });
             }
 
-
             foreach (MapEntity mapEntity in tileAsset.Entities)
             {
                 if (settings.ObjectLayerMask.ContainsLayer(mapEntity.Layer) == false) { continue; }
 
-                if(mapEntity.Prefab == null)
+                if (mapEntity.Prefab == null)
                 {
                     Debug.LogError($"Prefab is missing on {mapEntity.ID}");
                     continue;
                 }
 
-                //if (mapEntity.Prefab.RuntimeKeyIsValid() == false)
-                //{
-                //    Debug.LogError($"Prefab is not valid on {mapEntity.ID}:{mapEntity.Prefab.AssetGUID}");
-                //    continue;
-                //}
-
-                try
+                AsyncOperationHandle<GameObject> loadEntityHandler = Addressables.LoadAssetAsync<GameObject>(mapEntity.Prefab);
+                loadEntityHandler.Completed += (h) =>
                 {
-                    AsyncOperationHandle<GameObject> loadEntityHandler = Addressables.LoadAssetAsync<GameObject>(mapEntity.Prefab);
-                    loadEntityHandler.Completed += (h) =>
+                    if (_isDestroyed || _isAssetLoaded == false)
                     {
-                        if (_isDestroyed || _isAssetLoaded == false)
-                        {
-                            Addressables.Release(loadEntityHandler);
-                            return;
-                        }
-                        _entityAssetHandlers.Add(loadEntityHandler);
+                        Addressables.Release(loadEntityHandler);
+                        return;
+                    }
+                    _entityAssetHandlers.Add(loadEntityHandler);
 
-                        TaskManager.Execute(() =>
-                        {
-                            if (_isDestroyed) return;
+                    TaskManager.Execute(() =>
+                    {
+                        if (_isDestroyed) return;
 
-                            GameObject obj = SetupEntity(h.Result, mapEntity);
-                            if (obj != null) OnEntityInstantiated(obj, mapEntity);
-                        });
-                    };
-                }
-                catch (Exception ex)
-                {
-                    Debug.LogError($"InvalidKeyException for {mapEntity.ID}:{mapEntity.Prefab.AssetGUID}. Message: {ex.Message}");
-                }
+                        GameObject obj = SetupEntity(h.Result, mapEntity);
+                        if (obj != null) OnEntityInstantiated(obj, mapEntity);
+                    });
+                };
             }
         }
 
@@ -181,6 +165,9 @@ namespace OpenWorld
             Release();
         }
 
-        internal abstract void Destroy();
+        internal virtual void Destroy()
+        {
+            _isDestroyed = true;
+        }
     }
 }

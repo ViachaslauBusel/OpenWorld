@@ -8,6 +8,7 @@ namespace OpenWorld
         //private List<GameObject> _objects = new();
         internal override void Destroy()
         {
+            base.Destroy();
             Destroy(gameObject);
         }
     }

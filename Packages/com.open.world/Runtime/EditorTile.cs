@@ -36,6 +36,7 @@ namespace OpenWorld
 
         internal override void Destroy()
         {
+            base.Destroy();
             DestroyImmediate(gameObject);
         }
     }
