@@ -11,9 +11,9 @@ namespace OpenWorld
 
         public void Initialize(int id)
         {
-            if(_id != 0) Debug.LogWarning("ID already set");
-
             _id = id;
+
+            OnIdentifierInitialize();
         }
 
         public void NotifyOnDestroyIdentifier()
@@ -21,6 +21,13 @@ namespace OpenWorld
             if (_id == 0) Debug.LogWarning("ID not set");
 
             OnIdentifierDestroy();
+        }
+
+        /// <summary>
+        /// Notification of identifier initialization
+        /// </summary>
+        protected virtual void OnIdentifierInitialize()
+        {
         }
 
         /// <summary>
