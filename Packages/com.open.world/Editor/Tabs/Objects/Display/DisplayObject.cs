@@ -44,7 +44,7 @@ namespace OpenWorldEditor.MapObjectTab.Display
 
             if(entityIdentifierID != 0)
             {
-                var mapEntityIdentifier = newObject.AddComponent<MapEntityIdentifier>();
+                var mapEntityIdentifier = newObject.GetComponent<MapEntityIdentifier>();
                 mapEntityIdentifier?.Initialize(entityIdentifierID);
                 mapEntityIdentifier?.NotifyOnDestroyIdentifier();
             }
