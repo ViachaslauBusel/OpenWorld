@@ -122,7 +122,7 @@ namespace OpenWorldEditor.MapObjectTab.Attach
                     if (mapEntityIdentifier != null)
                     {
                         id = TabSetting.Map.GenerateID();
-                        mapEntityIdentifier.Initialize(id);
+                        mapEntityIdentifier.Initialize(id, false);
                     }
 
                     MapEntity mapObject = new MapEntity(

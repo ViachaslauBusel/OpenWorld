@@ -9,11 +9,11 @@ namespace OpenWorld
 
         public int ID => _id;
 
-        public void Initialize(int id)
+        public void Initialize(int id, bool notify = true)
         {
             _id = id;
 
-            OnIdentifierInitialize();
+            if(notify) OnIdentifierInitialize();
         }
 
         public void NotifyOnDestroyIdentifier()
