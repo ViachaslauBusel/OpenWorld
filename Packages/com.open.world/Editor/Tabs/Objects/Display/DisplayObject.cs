@@ -1,4 +1,5 @@
-﻿using OpenWorld.DATA;
+﻿using OpenWorld;
+using OpenWorld.DATA;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,6 +30,8 @@ namespace OpenWorldEditor.MapObjectTab.Display
         /// <summary>Detach the object from the map</summary>
         public void Detach()
         {
+            // Delete the object from the scene
+            int entityIdentifierID = ObjectOnScene.GetComponent<MapEntityIdentifier>()?.ID ?? 0;
             GameObject.DestroyImmediate(ObjectOnScene);
 
             //Create object with link to prefab
@@ -38,6 +41,11 @@ namespace OpenWorldEditor.MapObjectTab.Display
             newObject.transform.position = EntityData.Position;
             newObject.transform.rotation = EntityData.Rotation;
             newObject.transform.localScale = EntityData.Scale;
+
+            if(entityIdentifierID != 0)
+            {
+                newObject.GetComponent<MapEntityIdentifier>()?.Initialize(entityIdentifierID);
+            }
 
             // Remove the object from the prefab
             TileData.RemoveEntity(EntityData);

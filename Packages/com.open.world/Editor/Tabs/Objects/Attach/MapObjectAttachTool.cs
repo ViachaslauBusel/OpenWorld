@@ -118,10 +118,11 @@ namespace OpenWorldEditor.MapObjectTab.Attach
                     int id = 0;
 
                     // Generate ID for the object if it has a MapEntityIdentifier component
-                    if (attachObject.Prefab.GetComponent<MapEntityIdentifier>() != null)
+                    var mapEntityIdentifier = attachObject.SceneObject.GetComponent<MapEntityIdentifier>();
+                    if (mapEntityIdentifier != null)
                     {
                         id = TabSetting.Map.GenerateID();
-                        Debug.Log($"Generated ID: {id}");
+                        mapEntityIdentifier.Initialize(id);
                     }
 
                     MapEntity mapObject = new MapEntity(

@@ -8,7 +8,7 @@ namespace OpenWorld
 
         public int ID => _id;
 
-        internal void Initialize(int id)
+        public void Initialize(int id)
         {
             if(_id != 0) Debug.LogWarning("ID already set");
 
