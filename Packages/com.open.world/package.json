@@ -1,6 +1,6 @@
 {
   "name": "com.open.world",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "displayName": "Open World",
   "description": "This tool is designed for creating and editing open worlds. Features include terrain generation and editing, vegetation and foliage placement, object arrangement, dynamic weather, and performance optimization.",
   "unity": "2019.1",

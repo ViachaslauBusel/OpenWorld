@@ -44,7 +44,9 @@ namespace OpenWorldEditor.MapObjectTab.Display
 
             if(entityIdentifierID != 0)
             {
-                newObject.GetComponent<MapEntityIdentifier>()?.Initialize(entityIdentifierID);
+                var mapEntityIdentifier = newObject.AddComponent<MapEntityIdentifier>();
+                mapEntityIdentifier?.Initialize(entityIdentifierID);
+                mapEntityIdentifier?.NotifyOnDestroyIdentifier();
             }
 
             // Remove the object from the prefab

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace OpenWorld
 {
@@ -13,6 +14,20 @@ namespace OpenWorld
             if(_id != 0) Debug.LogWarning("ID already set");
 
             _id = id;
+        }
+
+        public void NotifyOnDestroyIdentifier()
+        {
+            if (_id == 0) Debug.LogWarning("ID not set");
+
+            OnIdentifierDestroy();
+        }
+
+        /// <summary>
+        /// Notification of identifier destruction
+        /// </summary>
+        protected virtual void OnIdentifierDestroy()
+        {
         }
     }
 }
