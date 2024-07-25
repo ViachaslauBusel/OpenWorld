@@ -7,9 +7,9 @@ namespace OpenWorld.DataStore
     public class EntityDataStore<T> : ScriptableObject, ISerializationCallbackReceiver where T : class
     {
         [SerializeField, HideInInspector]
-        private List<int> _entityIds;
+        private List<int> _entityIds = new();
         [SerializeField, HideInInspector]
-        private List<T> _entityData;
+        private List<T> _entityData = new();
         private Dictionary<int, T> _data = new();
 
         public T GetData(int entityID)
