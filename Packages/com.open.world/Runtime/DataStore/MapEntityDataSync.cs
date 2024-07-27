@@ -11,9 +11,18 @@ namespace OpenWorld.DataStore
     {
         [SerializeField]
         private EntityDataStore<T> _worldDataRegistry;
+        private bool _readDataMode;
+
+        public bool ReadDataMode => _readDataMode;
 
         protected override void OnIdentifierInitialize()
         {
+            LoadData(ID, false);
+        }
+
+        public void LoadData(int id, bool readDataMode)
+        {
+            _readDataMode = readDataMode;
             T worldData = _worldDataRegistry.GetData(ID);
             if (worldData != null) LoadDataProperties(worldData);
         }
