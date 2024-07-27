@@ -60,7 +60,7 @@ namespace OpenWorldEditor
                     ObjectTab.Draw();
                     break;
                 case Tab.Export:
-                    TabExport.Draw();
+                    TabUtilities.Draw();
                     break;
                 case Tab.Setting:
                     TabSetting.Draw();

@@ -91,7 +91,7 @@ namespace OpenWorld.Helpers
 #endif
         }
 
-        public static IEnumerable<MapEntity> EnumerateAllMapObjects(this GameMap map)
+        public static IEnumerable<MapEntity> EnumerateAllMapEntities(this GameMap map)
         {
             foreach (MapTile tile in map.EnumerateAllTiles())
             {
