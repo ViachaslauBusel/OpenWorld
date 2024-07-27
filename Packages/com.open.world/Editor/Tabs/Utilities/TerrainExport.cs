@@ -1,5 +1,4 @@
 ﻿#if UNITY_EDITOR
-using Codice.Client.BaseCommands;
 using OpenWorld.DATA;
 using OpenWorld.Utilities;
 using System.IO;
@@ -11,6 +10,7 @@ namespace OpenWorldEditor
     public class TerrainExport : IMapUtilityForMapTile
     {
         private BinaryWriter _stream_out;
+        private float _terrainHeight;
 
         public string Name => "Export terrain.dat";
 
@@ -19,6 +19,7 @@ namespace OpenWorldEditor
             _stream_out = new BinaryWriter(File.Open(@"Export/terrain.dat", FileMode.Create));
             _stream_out.Write(map.MapSizeKilometers);
             _stream_out.Write(map.TilesPerKilometer);//Тайлов на километр
+            _terrainHeight = map.MaximumWorldHeight;
             //_stream_out.Write(map.HeightmapResolution);
         }
 
@@ -32,7 +33,7 @@ namespace OpenWorldEditor
             {
                 for (int j = 0; j < mapElement.TerrainData.heightmapResolution; j++)
                 {
-                    _stream_out.Write(heights[i, j] * mapElement.TerrainData.size.y);
+                    _stream_out.Write(heights[i, j] * _terrainHeight);
                 }
             }
             return false;
