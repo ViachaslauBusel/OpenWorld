@@ -16,7 +16,7 @@ namespace OpenWorld.Utilities
     public interface IMapUtilityForMapTile : IMapUtility
     {
         void BeginExecution(GameMap map);
-        bool Execute(MapTile mapElement);
+        bool Execute(MapTile tile, TileLocation location);
         void EndExecution(bool success);
     }
 

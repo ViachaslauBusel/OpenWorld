@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using OpenWorld;
 using OpenWorld.DATA;
 using OpenWorld.Utilities;
 using System.IO;
@@ -11,6 +12,7 @@ namespace OpenWorldEditor
     {
         private BinaryWriter _stream_out;
         private float _terrainHeight;
+        private GameMap _map;
 
         public string Name => "Export terrain.dat";
 
@@ -19,19 +21,26 @@ namespace OpenWorldEditor
             _stream_out = new BinaryWriter(File.Open(@"Export/terrain.dat", FileMode.Create));
             _stream_out.Write(map.MapSizeKilometers);
             _stream_out.Write(map.TilesPerKilometer);//Тайлов на километр
-            _terrainHeight = map.MaximumWorldHeight;
-            //_stream_out.Write(map.HeightmapResolution);
+            _map = map;
         }
 
-        public bool Execute(MapTile mapElement)
+        public bool Execute(MapTile tile, TileLocation location)
         {
-            _stream_out.Write(mapElement.TerrainData.heightmapResolution);
-            int size = (mapElement.TerrainData.heightmapResolution * mapElement.TerrainData.heightmapResolution) * sizeof(float);
+            int x = location.Xkm * _map.TilesPerKilometer + location.Xtr;
+            int y = location.Ykm * _map.TilesPerKilometer + location.Ytr;
+
+            _stream_out.Write(x);
+            _stream_out.Write(y);
+            _stream_out.Write(tile.TerrainData.heightmapResolution);
+
+            int size = (tile.TerrainData.heightmapResolution * tile.TerrainData.heightmapResolution) * sizeof(float);
+
             _stream_out.Write(size);//Размер массива высот
-            float[,] heights = mapElement.TerrainData.GetHeights(0, 0, mapElement.TerrainData.heightmapResolution, mapElement.TerrainData.heightmapResolution);
-            for (int i = 0; i < mapElement.TerrainData.heightmapResolution; i++)
+
+            float[,] heights = tile.TerrainData.GetHeights(0, 0, tile.TerrainData.heightmapResolution, tile.TerrainData.heightmapResolution);
+            for (int i = 0; i < tile.TerrainData.heightmapResolution; i++)
             {
-                for (int j = 0; j < mapElement.TerrainData.heightmapResolution; j++)
+                for (int j = 0; j < tile.TerrainData.heightmapResolution; j++)
                 {
                     _stream_out.Write(heights[i, j] * _terrainHeight);
                 }

@@ -79,12 +79,12 @@ namespace OpenWorld.Helpers
             }
         }
 
-        public static IEnumerable<MapTile> EnumerateAllTiles(this GameMap map)
+        public static IEnumerable<(MapTile Tile, TileLocation Location)> EnumerateAllTiles(this GameMap map)
         {
 #if UNITY_EDITOR
             foreach (TileLocation location in map.EnumerateAllTileLocations())
             {
-                yield return AssetDatabase.LoadAssetAtPath<MapTile>(location.Path);
+                yield return (AssetDatabase.LoadAssetAtPath<MapTile>(location.Path), location);
             }
 #else
             throw new NotImplementedException();
@@ -93,9 +93,9 @@ namespace OpenWorld.Helpers
 
         public static IEnumerable<MapEntity> EnumerateAllMapEntities(this GameMap map)
         {
-            foreach (MapTile tile in map.EnumerateAllTiles())
+            foreach ((MapTile Tile, TileLocation Location) tile in map.EnumerateAllTiles())
             {
-                foreach (MapEntity mapObject in tile.Entities)
+                foreach (MapEntity mapObject in tile.Tile.Entities)
                 {
                     yield return mapObject;
                 }

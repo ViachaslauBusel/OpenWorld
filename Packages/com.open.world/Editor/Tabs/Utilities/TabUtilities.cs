@@ -1,5 +1,4 @@
 ﻿#if UNITY_EDITOR
-using OpenWorld.DATA;
 using OpenWorld.Helpers;
 using OpenWorld.Utilities;
 using System;
@@ -52,51 +51,77 @@ namespace OpenWorldEditor
                     gameMapUtilite.Execute(TabSetting.Map);
                     break;
                 case IMapUtilityForMapTile mapTileUtilite:
-                    ExecuteWithExceptionHandling(mapTileUtilite.Name, mapTileUtilite.BeginExecution, mapTileUtilite.Execute, mapTileUtilite.EndExecution);
+                    ExecuteForMapTile(mapTileUtilite);
                     break;
                 case IMapUtilityForMapEntity mapEntityUtilite:
-                    ExecuteWithExceptionHandling(mapEntityUtilite.Name, mapEntityUtilite.BeginExecution, mapTile =>
-                    {
-                        bool isDirty = false;
-                        foreach (var entity in mapTile.Entities)
-                        {
-                           isDirty = mapEntityUtilite.Execute(entity) | isDirty;
-                        }
-                        return isDirty;
-                    }, mapEntityUtilite.EndExecution);
+                    ExecuteForMapEntity(mapEntityUtilite);
                     break;
             }
         }
 
-        private static void ExecuteWithExceptionHandling(string utiliteName, Action<GameMap> beginExecution, Func<MapTile, bool> executeAction, Action<bool> endExecution)
+        private static void ExecuteForMapEntity(IMapUtilityForMapEntity mapEntityUtilite)
         {
             bool success = true;
             try
             {
-                beginExecution(TabSetting.Map);
-                ExecuteUtiliteWithProgress(utiliteName, executeAction);
+                mapEntityUtilite.BeginExecution(TabSetting.Map);
+                EditorUtility.DisplayProgressBar("OpenWorld", "Executing " + mapEntityUtilite.Name, 0.0f);
+                int totalTiles = TabSetting.Map.MapSizeKilometers * TabSetting.Map.MapSizeKilometers * TabSetting.Map.TilesPerKilometer * TabSetting.Map.TilesPerKilometer;
+                int currentTile = 0;
+                foreach (var mapElement in TabSetting.Map.EnumerateAllTiles())
+                {
+                    EditorUtility.DisplayProgressBar("OpenWorld", "Executing " + mapEntityUtilite.Name, ++currentTile / (float)totalTiles);
+                    bool isDirty = false;
+                    foreach (var entity in mapElement.Tile.Entities)
+                    {
+                        isDirty = mapEntityUtilite.Execute(entity) || isDirty;
+                    }
+                    if (isDirty) EditorUtility.SetDirty(mapElement.Tile);
+                }
+
+                if (totalTiles != currentTile) Debug.LogError($"Total tiles and current tile count mismatch: {currentTile}/{totalTiles}");
             }
             catch (Exception e)
             {
                 success = false;
                 Debug.LogError(e);
             }
-            endExecution(success);
+            finally
+            {
+                EditorUtility.ClearProgressBar();
+                mapEntityUtilite.EndExecution(success);
+            }
         }
 
-        private static void ExecuteUtiliteWithProgress(string utiliteName, Func<MapTile, bool> executeAction)
+
+        private static void ExecuteForMapTile(IMapUtilityForMapTile mapTileUtilite)
         {
-            EditorUtility.DisplayProgressBar("OpenWorld", "Executing " + utiliteName, 0.0f);
-            int totalTiles = TabSetting.Map.MapSizeKilometers * TabSetting.Map.MapSizeKilometers * TabSetting.Map.TilesPerKilometer * TabSetting.Map.TilesPerKilometer;
-            int currentTile = 0;
-            foreach (var mapElement in TabSetting.Map.EnumerateAllTiles())
+            bool success = true;
+            try
             {
-                EditorUtility.DisplayProgressBar("OpenWorld", "Executing " + utiliteName, ++currentTile / (float)totalTiles);
-                bool isDirty = executeAction(mapElement);
-                if(isDirty) EditorUtility.SetDirty(mapElement);
+                mapTileUtilite.BeginExecution(TabSetting.Map);
+                EditorUtility.DisplayProgressBar("OpenWorld", "Executing " + mapTileUtilite.Name, 0.0f);
+                int totalTiles = TabSetting.Map.MapSizeKilometers * TabSetting.Map.MapSizeKilometers * TabSetting.Map.TilesPerKilometer * TabSetting.Map.TilesPerKilometer;
+                int currentTile = 0;
+                foreach (var mapElement in TabSetting.Map.EnumerateAllTiles())
+                {
+                    EditorUtility.DisplayProgressBar("OpenWorld", "Executing " + mapTileUtilite.Name, ++currentTile / (float)totalTiles);
+                    bool isDirty = mapTileUtilite.Execute(mapElement.Tile, mapElement.Location);
+                    if (isDirty) EditorUtility.SetDirty(mapElement.Tile);
+                }
+
+                if (totalTiles != currentTile) Debug.LogError($"Total tiles and current tile count mismatch: {currentTile}/{totalTiles}");
             }
-            EditorUtility.ClearProgressBar();
-            if (totalTiles != currentTile) Debug.LogError($"Total tiles and current tile count mismatch: {currentTile}/{totalTiles}");
+            catch (Exception e)
+            {
+                success = false;
+                Debug.LogError(e);
+            }
+            finally
+            {
+                EditorUtility.ClearProgressBar();
+                mapTileUtilite.EndExecution(success);
+            }
         }
     }
 }
