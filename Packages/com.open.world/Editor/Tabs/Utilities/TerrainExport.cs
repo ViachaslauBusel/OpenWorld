@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using Codice.Client.BaseCommands;
 using OpenWorld.DATA;
 using OpenWorld.Utilities;
 using System.IO;
@@ -18,11 +19,12 @@ namespace OpenWorldEditor
             _stream_out = new BinaryWriter(File.Open(@"Export/terrain.dat", FileMode.Create));
             _stream_out.Write(map.MapSizeKilometers);
             _stream_out.Write(map.TilesPerKilometer);//Тайлов на километр
-            _stream_out.Write(map.HeightmapResolution);
+            //_stream_out.Write(map.HeightmapResolution);
         }
 
         public bool Execute(MapTile mapElement)
         {
+            _stream_out.Write(mapElement.TerrainData.heightmapResolution);
             int size = (mapElement.TerrainData.heightmapResolution * mapElement.TerrainData.heightmapResolution) * sizeof(float);
             _stream_out.Write(size);//Размер массива высот
             float[,] heights = mapElement.TerrainData.GetHeights(0, 0, mapElement.TerrainData.heightmapResolution, mapElement.TerrainData.heightmapResolution);
