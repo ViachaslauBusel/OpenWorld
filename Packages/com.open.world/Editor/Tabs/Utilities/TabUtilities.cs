@@ -11,26 +11,30 @@ namespace OpenWorldEditor
 {
     internal static class TabUtilities
     {
-        private static List<IMapUtility> _utilites = new();
+        private static List<IMapUtility> _utilities = new();
 
         static TabUtilities()
         {
-            //Find all classes that implement the IMapUtilite interface
-            var types = typeof(TabUtilities).Assembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IMapUtility)));
-            foreach (var type in types)
+            // Find all classes that implement the IMapUtility interface in all assemblies
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in assemblies)
             {
-                if (type.IsAbstract || type.IsInterface) continue;
-                var instance = (IMapUtility)Activator.CreateInstance(type);
-                if (instance != null)
+                var types = assembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IMapUtility)));
+                foreach (var type in types)
                 {
-                    _utilites.Add(instance);
+                    if (type.IsAbstract || type.IsInterface) continue;
+                    var instance = (IMapUtility)Activator.CreateInstance(type);
+                    if (instance != null)
+                    {
+                        _utilities.Add(instance);
+                    }
                 }
             }
         }
 
         public static void Draw()
         {
-            foreach (var utilite in _utilites)
+            foreach (var utilite in _utilities)
             {
                 if (GUILayout.Button(utilite.Name))
                 {
