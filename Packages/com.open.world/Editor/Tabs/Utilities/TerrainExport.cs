@@ -11,7 +11,6 @@ namespace OpenWorldEditor
     public class TerrainExport : IMapUtilityForMapTile
     {
         private BinaryWriter _stream_out;
-        private float _terrainHeight;
         private GameMap _map;
 
         public string Name => "Export terrain.dat";
@@ -42,7 +41,7 @@ namespace OpenWorldEditor
             {
                 for (int j = 0; j < tile.TerrainData.heightmapResolution; j++)
                 {
-                    _stream_out.Write(heights[i, j] * _terrainHeight);
+                    _stream_out.Write(heights[i, j] * _map.MaximumWorldHeight);
                 }
             }
             return false;
