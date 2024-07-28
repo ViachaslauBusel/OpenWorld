@@ -123,7 +123,7 @@ namespace OpenWorld
         private void SetupTerrain(TileLocation location, MapSettings settings, MapTile tileAsset)
         {
             GameObject terrain_obj = Terrain.CreateTerrainGameObject(tileAsset.TerrainData);
-            //terrain_obj.layer = LayerMask.NameToLayer("Terrain");
+            terrain_obj.layer = settings.TerrainLayer;
 
             var terrain = terrain_obj.GetComponent<Terrain>();
             terrain.drawTreesAndFoliage = true;

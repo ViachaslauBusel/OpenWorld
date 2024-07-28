@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: RuntimeMapSettings
   m_EditorClassIdentifier: 
   _objectLayerMask: -1
+  _areaVisible: 1
   _waterMaterial: {fileID: 0}
   _terrainMaterial: {fileID: 10650, guid: 0000000000000000f000000000000000, type: 0}
+  _terrainLayer: 0

@@ -42,6 +42,8 @@ namespace OpenWorld.DATA
 
             //Display the area visible field
             _mapSettings.AreaVisible = EditorGUILayout.IntSlider("Area Visible", _mapSettings.AreaVisible, 1, 30);
+
+            _mapSettings.TerrainLayer = EditorGUILayout.LayerField("Terrain Layer", _mapSettings.TerrainLayer);
         }
     }
 }
