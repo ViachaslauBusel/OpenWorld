@@ -1,7 +1,4 @@
-﻿using DATA;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 

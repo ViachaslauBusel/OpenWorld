@@ -1,6 +1,7 @@
-﻿using OpenWorld.DATA;
+﻿using AssetPerformanceToolkit.AssetManagement;
+using AssetPerformanceToolkit.FrameBalancer;
+using OpenWorld.DATA;
 using OpenWorld.Helpers;
-using OpenWorld.Loader;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -31,7 +32,7 @@ namespace OpenWorld
 
             OnAssetLoaded(tileAsset);
 
-            TaskManager.Execute(() =>
+            FrameTaskScheduler.Execute(() =>
             {
                 if (_isDestroyed) return;
 
@@ -40,7 +41,7 @@ namespace OpenWorld
 
             if (tileAsset.WaterTile != null)
             {
-                TaskManager.Execute(() =>
+                FrameTaskScheduler.Execute(() =>
                 {
                     if (_isDestroyed) return;
 
@@ -68,7 +69,7 @@ namespace OpenWorld
                     }
                     _entityAssetHandlers.Add(loadEntityHandler);
 
-                    TaskManager.Execute(() =>
+                    FrameTaskScheduler.Execute(() =>
                     {
                         if (_isDestroyed) return;
 
