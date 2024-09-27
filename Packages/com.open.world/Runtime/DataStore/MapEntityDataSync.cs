@@ -23,7 +23,7 @@ namespace OpenWorld.DataStore
         public void LoadData(int id, bool readDataMode)
         {
             _readDataMode = readDataMode;
-            T worldData = _worldDataRegistry.GetData(ID);
+            T worldData = _worldDataRegistry.GetData(id);
             if (worldData != null) LoadDataProperties(worldData);
         }
 

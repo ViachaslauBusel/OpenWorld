@@ -60,8 +60,9 @@ namespace OpenWorld
                 }
 
                 AsyncOperationHandle<GameObject> loadEntityHandler = Addressables.LoadAssetAsync<GameObject>(mapEntity.Prefab);
-                loadEntityHandler.Completed += (h) =>
-                {
+                await loadEntityHandler.Task;
+                //loadEntityHandler.Completed += (h) =>
+                //{
                     if (_isDestroyed || _isAssetLoaded == false)
                     {
                         Addressables.Release(loadEntityHandler);
@@ -73,10 +74,10 @@ namespace OpenWorld
                     {
                         if (_isDestroyed) return;
 
-                        GameObject obj = SetupEntity(h.Result, mapEntity);
+                        GameObject obj = SetupEntity(loadEntityHandler.Result, mapEntity);
                         if (obj != null) OnEntityInstantiated(obj, mapEntity);
                     });
-                };
+              //  };
             }
         }
 

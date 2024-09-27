@@ -12,17 +12,20 @@ namespace OpenWorld.DATA
     {
         [SerializeField, HideInInspector]
         private ObjectLayerMask _objectLayerMask;
+        [SerializeField]
+        private Material _waterMaterial;
+        [SerializeField]
+        private Material _terrainMaterial;
         [SerializeField, HideInInspector]
         private int _areaVisible = 1;
-        [SerializeField] Material _waterMaterial;
-        [SerializeField] Material _terrainMaterial;
         // Нужно сделать выбор только 1 слоя
-        [SerializeField, HideInInspector] int _terrainLayer;
+        [SerializeField, HideInInspector]
+        private int _terrainLayer;
         
         public ObjectLayerMask ObjectLayerMask { get => _objectLayerMask; set => _objectLayerMask = value; }
         public int AreaVisible { get => _areaVisible; set => _areaVisible = value; }
         public Material WaterMaterial => _waterMaterial;
         public Material TerrainMaterial => _terrainMaterial;
-        public int TerrainLayer { get; set; }
+        public int TerrainLayer { get => _terrainLayer; set => _terrainLayer = value; }
     }
 }

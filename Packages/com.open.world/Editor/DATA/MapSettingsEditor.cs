@@ -44,6 +44,9 @@ namespace OpenWorld.DATA
             _mapSettings.AreaVisible = EditorGUILayout.IntSlider("Area Visible", _mapSettings.AreaVisible, 1, 30);
 
             _mapSettings.TerrainLayer = EditorGUILayout.LayerField("Terrain Layer", _mapSettings.TerrainLayer);
+
+            // Save the changes back to the object
+            EditorUtility.SetDirty(target);
         }
     }
 }
