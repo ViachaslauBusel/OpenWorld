@@ -108,5 +108,9 @@ namespace OpenWorld
             return $"Xkm: {Xkm}, Ykm: {Ykm}, Xtr: {Xtr}, Ytr: {Ytr}";
         }
 
+        public static Vector3 GetPostion(GameMap map, int xKM, int yKM, int x, int y)
+        {
+            return new Vector3((xKM * 1000.0f) + (x * map.TileSize), 0.0f, (yKM * 1000.0f) + (y * map.TileSize));
+        }
     }
 }

@@ -119,7 +119,7 @@ namespace OpenWorld
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             meshRenderer.receiveShadows = false;
             water.transform.SetParent(transform);
-            water.transform.localPosition = new Vector3(0.0f, location.Map.WaterLevel, 0.0f) + location.Position;
+            water.transform.localPosition = new Vector3(0.0f, location.Map.WaterLevel - 1f, 0.0f) + location.Position;
         }
 
         private void SetupTerrain(TileLocation location, MapSettings settings, MapTile tileAsset)
