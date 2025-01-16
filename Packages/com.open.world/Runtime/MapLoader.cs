@@ -1,5 +1,6 @@
 ﻿using OpenWorld.DATA;
 using OpenWorld.Helpers;
+using OpenWorld.Water.Water;
 using UnityEngine;
 
 
@@ -10,6 +11,7 @@ namespace OpenWorld
         [SerializeField] GameMap _map;
         [SerializeField] MapSettings _settings;
         private BaseTile[,] _tiles;
+        private readonly WaterRegistry _waterRegistry = new WaterRegistry();
         private TileLocation[,] _tilesLocations;
         private Vector4 _border = new Vector4();
         private Transform _trackingObj;
@@ -21,6 +23,7 @@ namespace OpenWorld
         public GameMap Map => _map;
         public MapSettings Settings => _settings;
         public Transform TrackingObject => _trackingObj;
+        public WaterRegistry Water => _waterRegistry;
 
 
         private void Awake()

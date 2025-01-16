@@ -22,5 +22,5 @@ MonoBehaviour:
   _heightmapResolutionIndex: 2
   _alphamapResolutionIndex: 3
   _baseMapResolutionIndex: 3
-  _waterLevel: 0
+  _waterLevel: 5
   _idGenerator: 10

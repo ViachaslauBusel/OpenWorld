@@ -2,6 +2,7 @@
 using AssetPerformanceToolkit.FrameBalancer;
 using OpenWorld.DATA;
 using OpenWorld.Helpers;
+using OpenWorld.Water;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -114,6 +115,7 @@ namespace OpenWorld
             GameObject water = new GameObject("WaterTile");
             MeshFilter meshFilter = water.AddComponent<MeshFilter>();
             MeshRenderer meshRenderer = water.AddComponent<MeshRenderer>();
+            water.AddComponent<WaterTag>();
             meshFilter.mesh = tileAsset.WaterTile;
             meshRenderer.material = settings.WaterMaterial;
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
