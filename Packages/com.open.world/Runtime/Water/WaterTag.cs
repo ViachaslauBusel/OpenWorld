@@ -31,7 +31,10 @@ namespace OpenWorld.Water
 
         public bool IsPointInWater(Vector3 point)
         {
-            return _renderer.bounds.Contains(point);
+            //Check by x and z axis
+            if (point.x < _renderer.bounds.min.x || point.x > _renderer.bounds.max.x) return false;
+            if (point.z < _renderer.bounds.min.z || point.z > _renderer.bounds.max.z) return false;
+            return true;
         }
 
         private void OnDestroy()

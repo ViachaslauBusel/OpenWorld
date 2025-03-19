@@ -113,6 +113,7 @@ namespace OpenWorld
         private void SetupWater(TileLocation location, MapSettings settings, MapTile tileAsset)
         {
             GameObject water = new GameObject("WaterTile");
+            water.transform.SetParent(transform);
             MeshFilter meshFilter = water.AddComponent<MeshFilter>();
             MeshRenderer meshRenderer = water.AddComponent<MeshRenderer>();
             water.AddComponent<WaterTag>();
@@ -120,7 +121,7 @@ namespace OpenWorld
             meshRenderer.material = settings.WaterMaterial;
             meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             meshRenderer.receiveShadows = false;
-            water.transform.SetParent(transform);
+          
             water.transform.localPosition = new Vector3(0.0f, location.Map.WaterLevel - 1f, 0.0f) + location.Position;
         }
 
